@@ -35,7 +35,7 @@
                     <div class="col-4">
                       <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue0[0]->id}}/1" method="post">
                         @csrf
-                        <img src="#">
+                        <img src="{{ asset('images/'. $randValue0[0]->image) }}">
                         <h4>{{$randValue0[0]->title}}<br></h4>
                         <p>{{$randValue0[0]->price}}</p>
                             <button type="submit" href="" class="button">Add to cart</a>
@@ -44,7 +44,7 @@
                     <div class="col-4">
                       <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue1[0]->id}}/1" method="post">
                         @csrf
-                        <img src="#">
+                        <img src="{{ asset('images/'. $randValue1[0]->image) }}">
                         <h4>{{$randValue1[0]->title}}<br></h4>
                         <p>{{$randValue1[0]->price}}</p>
                         <button type="submit" href="" class="button">Add to cart</a>
@@ -53,7 +53,7 @@
                     <div class="col-4">
                       <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue2[0]->id}}/1" method="post">
                         @csrf
-                        <img src="HP and the chamber of secrets.jpeg">
+                        <img src="{{ asset('images/'. $randValue2[0]->image) }}">
                         <h4>{{$randValue2[0]->title}}<br></h4>
                         <p>{{$randValue2[0]->price}}</p>
                         <button type="submit" href="" class="button">Add to cart</a>
@@ -63,7 +63,7 @@
                       <div class="col-4">
                         <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue3[0]->id}}/1" method="post">
                           @csrf
-                          <img src="start with why.jpg">
+                          <img src="{{ asset('images/'. $randValue3[0]->image) }}">
                           <h4>{{$randValue3[0]->title}}<br></h4>
                           <p>{{$randValue3[0]->price}}</p>
                           <button type="submit" href="" class="button">Add to cart</a>
