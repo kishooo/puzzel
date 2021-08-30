@@ -12,8 +12,12 @@
 						<form action="/admin/create/{{$user}}" method="POST" enctype="multipart/form-data">
 							@csrf
 							<div class="form-group">
-								<label for="exampleInputName1">اسم المنتج</label>
+								<label for="exampleInputName1">اسم المنتج باانجليزيه</label>
 								<input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputName1">اسم المنتج باالعربيه</label>
+								<input name="Arname" type="text" class="form-control" id="exampleInputName1" placeholder="">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputPrice1">سعر</label>

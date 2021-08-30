@@ -60,6 +60,7 @@ class AdminController extends Controller
 
     $request->validate([
             'name' => 'required',
+            'Arname'=>'required',
             'quantity' => 'required|integer|min:0|max:2021',
             'category'=>'required',
             'price' => 'required',
@@ -94,10 +95,10 @@ class AdminController extends Controller
 
 
     if(!empty($request->input('newPrice'))){
-      DB::insert('insert into products (title,price,newPrice,image,quantity) values (?,?,?,?,?)', [$request->input('name'),$request->input('price'),$request->input('newPrice'),$newImageName,$request->input('quantity')]);
+      DB::insert('insert into products (arTitle,title,price,newPrice,image,quantity) values (?,?,?,?,?,?)', [$request->input('Arname'),$request->input('name'),$request->input('price'),$request->input('newPrice'),$newImageName,$request->input('quantity')]);
 
       }else{
-          DB::insert('insert into products (title,price,image,quantity) values (?,?,?,?)', [$request->input('name'),$request->input('price'),$newImageName,$request->input('quantity')]);
+          DB::insert('insert into products (arTitle,title,price,image,quantity) values (?,?,?,?,?)', [$request->input('Arname'),$request->input('name'),$request->input('price'),$newImageName,$request->input('quantity')]);
       }
       $getProduct = DB::select("SELECT * FROM products ORDER BY id DESC LIMIT 1");
       $getIndexProduct = $getProduct[0]->id;
@@ -177,7 +178,7 @@ class AdminController extends Controller
 
   public function showOrders($userId)
   {
-  $orderTable=DB::select("SELECT * FROM orders WHERE paid =1");
+  $orderTable=DB::select("SELECT * FROM orders WHERE name IS Not NULL");
 
     return view('Dorders',['ordersTable'=>$orderTable]);
   }
@@ -289,8 +290,21 @@ class AdminController extends Controller
           return view('Ncat',['userId'=>$userId]);
         }
         public function DoCreateCategory(Request $request,$userId){
-          DB::insert('INSERT into categories (title) values(?)',[$request->input('category')]);
+          DB::insert('INSERT into categories (title,arTitle) values(?,?)',[$request->input('category'),$request->input('arCategory')]);
           return redirect("/admin/online/products/".$userId);
+        }
+        public function paidOrder(Request $request,$userId,$orderId){
+          $checkOrder=DB::select("SELECT * FROM orders WHERE id = ".$orderId."&& paid =0 ORDER BY id DESC LIMIT 1");
+          if(is_null($checkOrder)||empty($checkOrder)){
+            DB::table('orders')
+              ->where('id',$orderId)
+              ->update(['paid'=>0]);
+          }else{
+            DB::table('orders')
+              ->where('id',$orderId)
+              ->update(['paid'=>1]);
+          }
+          return redirect("admin/ShowOrders/".$userId);
         }
 
 }

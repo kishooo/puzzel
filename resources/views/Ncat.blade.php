@@ -12,8 +12,10 @@
 						<form action="/admin/Create/Category/{{$userId}}" method="post">
 							@csrf
 							<div class="form-group">
-								<label for="exampleInputName1">اسم القسم</label>
+								<label for="exampleInputName1"> اسم القسم باانجليزيه</label>
 								<input name="category" type="text" class="form-control" id="exampleInputName1" placeholder="">
+								<label for="exampleInputName1">اسم القسم باالعربيه</label>
+								<input name="arCategory" type="text" class="form-control" id="exampleInputName1" placeholder="">
 							</div>
 							<button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">حفظ</button>
 						</form>

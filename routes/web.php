@@ -28,6 +28,7 @@ Route::group(['namespace'=>'adminPage','middleware'=>'auth:web'],function(){
   Route::post('admin/ShowReviewAdmin/{reviewId}/{userId}',[AdminController::class,'HideShowReview']);
   Route::get('admin/ShowReviewAdmin/{userId}',[AdminController::class,'ShowReviewAdmin']);
   Route::get('admin/ShowOrders/{userId}',[AdminController::class,'ShowOrders']);
+  Route::post('admin/ShowOrders/{orderId}/{userId}',[AdminController::class,'paidOrder']);
   Route::get('admin/online/products/{userId}',[AdminController::class,'index']);
   Route::get('admin/{productCategory}/{userId}',[AdminController::class,'ShowProductsWithCat']);
   Route::get('admin/online/products/edit/{productId}/{userId}',[AdminController::class,'ShowEditProduct']);

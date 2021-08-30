@@ -22,7 +22,15 @@
 									<td>{{$orderTable->name}}</td>
 									<td>{{$orderTable->total}}</td>
 									<td>{{$orderTable->updateAt}}</td>
-									<td class="text-success">Completed</td>
+									<form action="/admin/ShowOrders/{{Auth::user()->id}}/{{$orderTable->id}}" method="post">
+										@csrf
+										@if($orderTable->paid==0)
+											<td><button type="submit" class="btn btn-bordered btn-xs" >pay</button></td>
+										@else
+											<td><button type="submit" class="btn btn-bordered btn-xs" >not pay</button></td>
+										@endif
+									</form>
+
 									<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
 								</tr>
 								@endforeach
