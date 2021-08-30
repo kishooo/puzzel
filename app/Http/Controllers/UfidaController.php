@@ -105,18 +105,21 @@ class UfidaController extends Controller
       $productCategory=DB::select("SELECT * , products.title  AS productTitle, categories.id As categoriesId  FROM products JOIN product_categories on(products.id=product_categories.productId) JOIN categories on(product_categories.categoryId=categories.id) GROUP BY(categories.title) ORDER BY categories.id DESC LIMIT 3");
       $productWithCategory=DB::select("SELECT * , products.title  AS productTitle , categories.id As categoriesId FROM products JOIN product_categories on(products.id=product_categories.productId) JOIN categories on(product_categories.categoryId=categories.id)");
       //$userName = DB::select('SELECT * FROM users WHERE id = '.$userId);
-      $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
 
-      if(is_null($getLast) || empty($getLast)){
-        DB::insert('insert into carts (userId) values (?)', [$userId]);
-      }else{
+      if(is_string($userId)){
         $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
-        $cartId = $getLast[0]->id;
-        $isDone = $getLast[0]->updatable;
-        if($isDone==0){
+        if(is_null($getLast) || empty($getLast)){
           DB::insert('insert into carts (userId) values (?)', [$userId]);
+        }else{
+          $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
+          $cartId = $getLast[0]->id;
+          $isDone = $getLast[0]->updatable;
+          if($isDone==0){
+            DB::insert('insert into carts (userId) values (?)', [$userId]);
+          }
         }
       }
+
       return view('userInterface.Home',[
         'products'=>$getProduct,
         'reviews'=>$userReview,
@@ -643,7 +646,7 @@ class UfidaController extends Controller
     $carttotalUser=DB::select("SELECT *, SUM(price) As totalPrice FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$getCartId." GROUP BY(userId)");
     $cartTotalUserLast=DB::select("SELECT SUM(price) As totalPrice FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$getCartId." GROUP BY(userId) ORDER BY (userId) DESC LIMIT 1");
 
-    
+
     return view("userInterface.cart_confirm",[
       'itemCarts'=>$carttitles,
       'overAllTotal'=>$cartTotalUserLast[0],
