@@ -650,7 +650,7 @@ class UfidaController extends Controller
 
 
     $cartId = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
-    $products=DB::select('SELECT * FROM products WHERE id = '.$productId);
+    $products=DB::select('SELECT * FROM products WHERE id = '.$selectedProductId);
     $tasks_controller = new UfidaController;
 
     //foreach ($cartId as $cartId) {
@@ -658,31 +658,36 @@ class UfidaController extends Controller
     //DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$productId,$products[0]->title,$products[0]->price,$cartId[0]->id,1]);
     $checkNull=DB::table('cart_item')
               ->select('*')
-              ->where('productId',$productId)
+              ->where('productId',$selectedProductId)
               ->first();
 
     if(is_null($checkNull)){
       $checkproductPrice=DB::table('products')
                 ->select('*')
-                ->where('id',$productId)
+                ->where('id',$selectedProductId)
                 ->having('newPrice','>','0')
                 ->first();
       if(is_null($checkproductPrice)){
-          DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$productId,$products[0]->title,$products[0]->price,$cartId[0]->id,1]);
+          DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$selectedProductId,$products[0]->title,$products[0]->price,$cartId[0]->id,1]);
       }else{
-        DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$productId,$products[0]->title,$products[0]->newPrice,$cartId[0]->id,1]);
+        DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$selectedProductId,$products[0]->title,$products[0]->newPrice,$cartId[0]->id,1]);
       }
     }
     else{
       DB::table('cart_Item')
-        ->where('productId',$productId)
+        ->where('productId',$selectedProductId)
         ->update(['quantity'=>DB::raw('quantity+1')]);
     }
 
 
   //  }
     //return $tasks_controller->index($userId);
-    return redirect("/online/ShowProducts/".$productId."/".$userId);
+    return redirect("/online/ShowProducts/".$productId."/".$userId."#Recommended");
     //
+  }
+  public function DeleteCart(Request $request,$cartItemId){
+
+    $products=DB::select('DELETE FROM cart_item WHERE id = '.$cartItemId);
+    return redirect("/HomePage/category/ShowCart/1");
   }
 }

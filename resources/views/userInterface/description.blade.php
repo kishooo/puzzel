@@ -29,10 +29,10 @@
 
 
             <!--------------products-->
-            <div class="small-container">
+            <div class="small-container" id="Recommended">
                 <h2 class="title">Recommended Products</h2>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-4" >
                       <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue0[0]->id}}/1" method="post">
                         @csrf
                         <img src="{{ asset('images/'. $randValue0[0]->image) }}">
