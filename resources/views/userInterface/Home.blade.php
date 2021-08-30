@@ -59,13 +59,15 @@
                         <a href="/online/ShowProducts/{{$product->id}}/visitor"><h5>{{$product->title}}</h5></a>
                         @endif
                         <h6>{{$product->price}} EGP</h6>
-                        @if(Auth::user)
+                        @if(Auth::user())
                         <form method="post" action="/HomePage/{{$product->id}}/{{Auth::user()->id}}">
-                        @endif
+
                           @csrf
                             <button type="submit" id="submit{{$i}}" class="button">Add to cart</Button>
                         </form>
-
+                        @else
+                        <a type="submit" href="/online/login" id="submit{{$i}}" class="button">Login to Add to cart</a>
+                        @endif
                     </div>
                     @php($i++)
             @endforeach

@@ -20,7 +20,7 @@
                             <img src="{{ asset('images/'. $itemCart->image) }}">
                             <div>
                                 <p>{{$itemCart->title}}</p>
-                                <small>Price per unit {{$itemCart->price}} EGP</small>
+                                <small>Price per unit {{$itemCart->finalProductPrice}} EGP</small>
                             </div>
                         </div>
                     </td>

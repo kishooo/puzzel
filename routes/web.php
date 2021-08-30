@@ -59,7 +59,7 @@ Route::post('online/logout',[ufidaController::class,'doLogout']);
 Route::get('online/login',[UfidaController::class,'login']);
 Route::post('online/Register',[UfidaController::class,'Register']);
 Route::post('online/login',[UfidaController::class,'doLogin']);
-Route::get('/HomePage',[ufidaController::class,'HomePage']);
+Route::get('/HomePage/{userId}',[ufidaController::class,'HomePage']);
 Route::post('/HomePage/{productId}/{userId}',[UfidaController::class,'addcartToUserHomePage']);
 Route::post('/HomePage/category/{divId}/{productId}/{categoryId}/{userId}',[UfidaController::class,'addcartToUserProductPage']);
 Route::get('/HomePage/category/{categoryId}',[UfidaController::class,'productPage']);

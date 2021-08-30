@@ -34,7 +34,7 @@ class UfidaController extends Controller
         $user =DB::select("SELECT * FROM users WHERE id = ".$userId);
         $userType = $user[0]->UserType;
 
-      return redirect("/HomePage");
+      return redirect("/HomePage/".$userId);
 
       // validation successful
 
@@ -99,13 +99,24 @@ class UfidaController extends Controller
       return redirect("/online/products/".$userId);
     }
 
-    public function HomePage(){
+    public function HomePage($userId){
       $getProduct = DB::select("SELECT * FROM products WHERE appeared=1 ORDER BY id DESC LIMIT 4");
       $userReview = DB::select("SELECT * FROM users  JOIN product_review on(users.id=product_review.userId) WHERE published= 1 ORDER BY product_review.id DESC LIMIT 3");
       $productCategory=DB::select("SELECT * , products.title  AS productTitle, categories.id As categoriesId  FROM products JOIN product_categories on(products.id=product_categories.productId) JOIN categories on(product_categories.categoryId=categories.id) GROUP BY(categories.title) ORDER BY categories.id DESC LIMIT 3");
       $productWithCategory=DB::select("SELECT * , products.title  AS productTitle , categories.id As categoriesId FROM products JOIN product_categories on(products.id=product_categories.productId) JOIN categories on(product_categories.categoryId=categories.id)");
       //$userName = DB::select('SELECT * FROM users WHERE id = '.$userId);
+      $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
 
+      if(is_null($getLast) || empty($getLast)){
+        DB::insert('insert into carts (userId) values (?)', [$userId]);
+      }else{
+        $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
+        $cartId = $getLast[0]->id;
+        $isDone = $getLast[0]->updatable;
+        if($isDone==0){
+          DB::insert('insert into carts (userId) values (?)', [$userId]);
+        }
+      }
       return view('userInterface.Home',[
         'products'=>$getProduct,
         'reviews'=>$userReview,
@@ -199,9 +210,7 @@ class UfidaController extends Controller
         // code...
       DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$productId,$products[0]->title,$products[0]->price,$cartId[0]->id,1]);
       $categories = DB::select('SELECT * FROM categories');
-      view("userInterface.header",["categories"=>$categories]);
-    //  }
-      //return $tasks_controller->index($userId);
+
       return redirect("/online/products/".$userId);
       //
   }
@@ -225,7 +234,8 @@ class UfidaController extends Controller
       //DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$productId,$products[0]->title,$products[0]->price,$cartId[0]->id,1]);
       $checkNull=DB::table('cart_item')
                 ->select('*')
-                ->where('productId',$productId)
+                ->where('cartId','=',$cartId[0]->id)
+                ->where('productId','=',$productId)
                 ->first();
 
       if(is_null($checkNull)){
@@ -250,7 +260,7 @@ class UfidaController extends Controller
       view("userInterface.header",["categories"=>$categories]);
     //  }
       //return $tasks_controller->index($userId);
-      return redirect("/HomePage");
+      return redirect("/HomePage/".$userId);
       //
   }
   public function addcartToUserProductPage(Request $request, $productId,$categoryId,$userId){
@@ -325,16 +335,17 @@ class UfidaController extends Controller
     ]);
 
   }
-  public function ShowCartUfida(){
-    $userName = DB::select('SELECT * FROM users WHERE id =1');
-    $cartss= DB::select('SELECT * FROM carts WHERE userId =1');
+  public function ShowCartUfida($userId){
+    $userName = DB::select('SELECT * FROM users WHERE id ='.$userId);
+    $cartss= DB::select('SELECT * FROM carts WHERE userId ='.$userId);
     //$orders=DB::select('SELECT * FROM carts WHERE userId ='.$userId);
-    $lastCart= DB::select('SELECT * FROM carts WHERE userId = 1 ORDER BY  id DESC LIMIT 1');
+    $lastCart= DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY  id DESC LIMIT 1');
     $getCartId = $lastCart[0]->id;
 
 
     $cartQuantites=DB::select("SELECT SUM(quantity) AS quantity FROM cart_item JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$getCartId." GROUP BY(productId)");
-    $carttitles=DB::select("SELECT * , SUM(cart_item.quantity)  AS cart_itemQuantity , products.id as productId, SUM(cart_item.price*cart_item.quantity) As totalPrice ,cart_item.id As cart_itemId FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) JOIN products on(products.id=cart_item.productId) WHERE cartId = ".$getCartId." GROUP BY(cart_item.productId)");
+    //$carttitles=DB::select("SELECT * , SUM(cart_item.quantity)  AS cart_itemQuantity , products.id as productId, SUM(cart_item.price*cart_item.quantity) As totalPrice ,cart_item.id As cart_itemId FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) JOIN products on(products.id=cart_item.productId) WHERE cartId = ".$getCartId." GROUP BY(cart_item.productId)");
+    $carttitles=DB::select("SELECT * , SUM(cart_item.quantity)  AS cart_itemQuantity , products.id as productId,cart_item.price*cart_item.quantity As totalPrice ,cart_item.price as finalProductPrice,cart_item.id As cart_itemId FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) JOIN products on(products.id=cart_item.productId) WHERE cartId = ".$getCartId." GROUP BY(cart_item.productId)");
     $carttotalUser=DB::select("SELECT *, SUM(price) As totalPrice FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$getCartId." GROUP BY(userId)");
     $cartTotalUserLast=DB::select("SELECT SUM(price) As totalPrice FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$getCartId." GROUP BY(userId) ORDER BY (userId) DESC LIMIT 1");
     return view('userInterface.Chart',
@@ -617,18 +628,22 @@ class UfidaController extends Controller
     return view("userInterface.header",["categories"=>$categories]);
   }
   public function ConfirmCartUfida($userId){
-    $userName = DB::select('SELECT * FROM users WHERE id =1');
-    $cartss= DB::select('SELECT * FROM carts WHERE userId =1');
+    $userName = DB::select('SELECT * FROM users WHERE id ='.$userId);
+    $cartss= DB::select('SELECT * FROM carts WHERE userId ='.$userId);
     //$orders=DB::select('SELECT * FROM carts WHERE userId ='.$userId);
-    $lastCart= DB::select('SELECT * FROM carts WHERE userId = 1 ORDER BY  id DESC LIMIT 1');
+    $lastCart= DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY  id DESC LIMIT 1');
     $getCartId = $lastCart[0]->id;
-
+    $lastCartId=$lastCart[0]->id;
+    $itemLastCarts=DB::select("SELECT * FROM cart_item WHERE cartId = ".$lastCartId);
 
     $cartQuantites=DB::select("SELECT SUM(quantity) AS quantity FROM cart_item JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$getCartId." GROUP BY(productId)");
-    $carttitles=DB::select("SELECT * , SUM(cart_item.quantity)  AS cart_itemQuantity , products.id as productId,cart_item.price*cart_item.quantity As totalPrice ,cart_item.id As cart_itemId FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) JOIN products on(products.id=cart_item.productId) WHERE cartId = ".$getCartId." GROUP BY(cart_item.productId)");
+    //$checkCartTitles=DB::select("SELECT * , SUM(cart_item.quantity)  AS cart_itemQuantity , products.id as productId,cart_item.price*cart_item.quantity As totalPrice ,products.price as finalProductPrice,cart_item.id As cart_itemId FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) JOIN products on(products.id=cart_item.productId) WHERE cartId = ".$getCartId." GROUP BY(cart_item.productId)");
+
+    $carttitles=DB::select("SELECT * , SUM(cart_item.quantity)  AS cart_itemQuantity , products.id as productId,cart_item.price*cart_item.quantity As totalPrice ,cart_item.price as finalProductPrice,cart_item.id As cart_itemId FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) JOIN products on(products.id=cart_item.productId) WHERE cartId = ".$getCartId." GROUP BY(cart_item.productId)");
     $carttotalUser=DB::select("SELECT *, SUM(price) As totalPrice FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$getCartId." GROUP BY(userId)");
     $cartTotalUserLast=DB::select("SELECT SUM(price) As totalPrice FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$getCartId." GROUP BY(userId) ORDER BY (userId) DESC LIMIT 1");
 
+    
     return view("userInterface.cart_confirm",[
       'itemCarts'=>$carttitles,
       'overAllTotal'=>$cartTotalUserLast[0],

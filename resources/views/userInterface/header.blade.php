@@ -24,9 +24,13 @@
             </div>
             <nav>
                 <ul id="MenuItems">
-                    <li><a href="/HomePage">Home</a></li>
+                    @if (Auth::user())
+                    <li><a href="/HomePage/{{Auth::user()->id}}">Home</a></li>
+                    @else
+                    <li><a href="/HomePage/visitor">Home</a></li>
+                    @endif
                     <li><a href="#About">About</a></li>
-                    <li><a href="/">Lamsa</i></a></li>
+
                     <?php
                       $categories=DB::select("SELECT * From categories");
                     ?>
@@ -47,7 +51,7 @@
                 </ul>
             </nav>
             @if (Auth::user())
-            <a href="/HomePage/category/ShowCart/1"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
+            <a href="/HomePage/category/ShowCart/{{Auth::user()->id}}"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
             @else
             <a href="/online/login"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
             @endif
