@@ -19,10 +19,11 @@
                         <a href="">Forget Password?</a>
                     </form>
 
-                    <form id="RegForm">
-                        <input type="text" placeholder="Username">
-                        <input type="email" placeholder="Email">
-                        <input type="password" placeholder="Password">
+                    <form id="RegForm" action="/online/Register" method="post">
+                      @csrf
+                        <input name="name" type="text" placeholder="Username">
+                        <input name="email" type="email" placeholder="Email">
+                        <input name="Password" type="password" placeholder="Password">
                         <button type="submit" class="btn">Register</button>
 
                     </form>

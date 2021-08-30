@@ -51,10 +51,17 @@
                   @php($i=0)
             @foreach($products as $product)
             <div class="col-4">
-                        <a href="/online/ShowProducts/{{$product->id}}/1"><img src="{{ asset('images/'. $product->image) }}" /></a>
-                        <a href="/online/ShowProducts/{{$product->id}}/1"><h5>{{$product->title}}</h5></a>
+                        @if (Auth::user())
+                        <a href="/online/ShowProducts/{{$product->id}}/{{Auth::user()->id}}"><img src="{{ asset('images/'. $product->image) }}" /></a>
+                        <a href="/online/ShowProducts/{{$product->id}}/{{Auth::user()->id}}"><h5>{{$product->title}}</h5></a>
+                        @else
+                        <a href="/online/ShowProducts/{{$product->id}}/visitor"><img src="{{ asset('images/'. $product->image) }}" /></a>
+                        <a href="/online/ShowProducts/{{$product->id}}/visitor"><h5>{{$product->title}}</h5></a>
+                        @endif
                         <h6>{{$product->price}} EGP</h6>
-                        <form method="post" action="/HomePage/{{$product->id}}/1">
+                        @if(Auth::user)
+                        <form method="post" action="/HomePage/{{$product->id}}/{{Auth::user()->id}}">
+                        @endif
                           @csrf
                             <button type="submit" id="submit{{$i}}" class="button">Add to cart</Button>
                         </form>

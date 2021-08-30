@@ -57,6 +57,7 @@ Route::post('/products/review/{productId}/{userId}',[UfidaController::class,'Sub
 Route::post('online/logout',[ufidaController::class,'doLogout']);
 
 Route::get('online/login',[UfidaController::class,'login']);
+Route::post('online/Register',[UfidaController::class,'Register']);
 Route::post('online/login',[UfidaController::class,'doLogin']);
 Route::get('/HomePage',[ufidaController::class,'HomePage']);
 Route::post('/HomePage/{productId}/{userId}',[UfidaController::class,'addcartToUserHomePage']);

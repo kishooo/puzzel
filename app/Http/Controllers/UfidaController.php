@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Middleware;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 
 
@@ -597,8 +598,15 @@ class UfidaController extends Controller
         //return view('ShowProductsOnly');
     }
     public function Register(Request $request){
-        DB::insert('insert into transaction (userId,orderId,type,mode) values (?,?,?,?)', [$userId,$orderId,$request->input('type'),$request->input('mode')]);
-      DB::insert("insert into users (name,email,password) values(?,?,?)",[$request->input('name'),$request->input('email'),$request->input('password')])
+      //Auth::register();
+      $request->validate([
+           'name' => 'required',
+           'email' => 'required|email',
+           'Password' => 'required'
+       ]);
+       $user = User::create(['name'=>$request->input('name'),'email'=>$request->input('email'),'password'=>$request->input('Password')]);
+       Auth::login($user);
+       return redirect("HomePage");
     }
     public function doLogout(Request $request) {
       Auth::logout();
