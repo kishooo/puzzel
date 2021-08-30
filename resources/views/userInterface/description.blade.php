@@ -20,7 +20,11 @@
                     @endif
                     <h4>Product Details:</h4>
                     <p>{{$product->summary}}.</p>
-                        <a href="" class="button">Add to cart</a>
+                    @if (Auth::user())
+                        <button type="submit" class="button">Add to cart</button>
+                    @else
+                        <a href="/online/login" class="button">Login to add into cart</a>
+                    @endif
                     </div>
                     </div>
                 </div>

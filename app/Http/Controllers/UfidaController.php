@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Response;
 use Illuminate\Http\Request;
 use App\Models\test;
 use App\Models\Product;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class UfidaController extends Controller
 {
   public function login(){
-    return view('userInterface.loginPage');
+    return view('userInterface.Login');
   }
 
   public function doLogin(Request $request){
@@ -113,7 +113,7 @@ class UfidaController extends Controller
     }
     public function productPage($categoryId){
       $productWithCategory=DB::select("SELECT * , products.title  AS productTitle, products.id  AS productId , categories.id As categoriesId FROM products JOIN product_categories on(products.id=product_categories.productId) JOIN categories on(product_categories.categoryId=categories.id) WHERE categories.id = ".$categoryId);
-
+      $categories=DB::select("SELECT * From categories");
       return view('userInterface.Lamsa',['products'=>$productWithCategory]);
     }
 
@@ -168,7 +168,8 @@ class UfidaController extends Controller
             DB::insert('insert into carts (userId) values (?)', [$userId]);
           }
         }
-
+        $categories = DB::select('SELECT * FROM categories');
+        view("userInterface.header",["categories"=>$categories]);
 
         return view('products', [
           'cars'=>$products,
@@ -196,7 +197,8 @@ class UfidaController extends Controller
       //foreach ($cartId as $cartId) {
         // code...
       DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$productId,$products[0]->title,$products[0]->price,$cartId[0]->id,1]);
-
+      $categories = DB::select('SELECT * FROM categories');
+      view("userInterface.header",["categories"=>$categories]);
     //  }
       //return $tasks_controller->index($userId);
       return redirect("/online/products/".$userId);
@@ -243,7 +245,8 @@ class UfidaController extends Controller
           ->update(['quantity'=>DB::raw('quantity+1')]);
       }
 
-
+      $categories = DB::select('SELECT * FROM categories');
+      view("userInterface.header",["categories"=>$categories]);
     //  }
       //return $tasks_controller->index($userId);
       return redirect("/HomePage");
@@ -263,6 +266,8 @@ class UfidaController extends Controller
       $cartId = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
       $products=DB::select('SELECT * FROM products WHERE id = '.$productId);
       $tasks_controller = new UfidaController;
+      $categories = DB::select('SELECT * FROM categories');
+      view("userInterface.header",["categories"=>$categories]);
 
       //foreach ($cartId as $cartId) {
         // code...
@@ -564,6 +569,8 @@ class UfidaController extends Controller
     //$getUser = DB::select('SELECT * FROM product_review WHERE id = '.$userId);
     //to get User Name
     $userReview = DB::select("SELECT *  FROM users  JOIN product_review on(users.id=product_review.userId)");
+    $categories = DB::select('SELECT * FROM categories');
+    view("userInterface.header",["categories"=>$categories]);
 
     return view('ShowReviewOnly',[
       'reviews'=>$userReview,
@@ -580,7 +587,8 @@ class UfidaController extends Controller
         //$userName = DB::select('SELECT * FROM users WHERE id = '.$userId);
         $products = DB::select('SELECT * FROM products');
 
-
+        $categories = DB::select('SELECT * FROM categories');
+        view("userInterface.header",["categories"=>$categories]);
         return view('ShowProductsOnly', [
           'cars'=>$products,
           'productCategories'=>$productCategory,
@@ -588,9 +596,17 @@ class UfidaController extends Controller
         ]);
         //return view('ShowProductsOnly');
     }
+    public function Register(Request $request){
+        DB::insert('insert into transaction (userId,orderId,type,mode) values (?,?,?,?)', [$userId,$orderId,$request->input('type'),$request->input('mode')]);
+      DB::insert("insert into users (name,email,password) values(?,?,?)",[$request->input('name'),$request->input('email'),$request->input('password')])
+    }
     public function doLogout(Request $request) {
       Auth::logout();
-    return redirect('/admin/login');
+      return redirect('/online/login');
+  }
+  public function header(){
+    $categories = DB::select('SELECT * FROM categories');
+    return view("userInterface.header",["categories"=>$categories]);
   }
   public function ConfirmCartUfida($userId){
     $userName = DB::select('SELECT * FROM users WHERE id =1');
@@ -688,6 +704,6 @@ class UfidaController extends Controller
   public function DeleteCart(Request $request,$cartItemId){
 
     $products=DB::select('DELETE FROM cart_item WHERE id = '.$cartItemId);
-    return redirect("/HomePage/category/ShowCart/1");
+    return redirect("/HomePage/category/ShowCart/1#table");
   }
 }

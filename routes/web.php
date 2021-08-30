@@ -54,7 +54,7 @@ Route::post('products/Order/transaction/{userId}/{orderId}',[UfidaController::cl
 Route::get('/products/review/{productId}/{userId}',[UfidaController::class,'ShowReview']);
 Route::get('/products/review/{productId}',[UfidaController::class,'ShowReviewOnly']);
 Route::post('/products/review/{productId}/{userId}',[UfidaController::class,'SubmitWriteReview']);
-Route::post('/logout',[ufidaController::class,'doLogout']);
+Route::post('online/logout',[ufidaController::class,'doLogout']);
 
 Route::get('online/login',[UfidaController::class,'login']);
 Route::post('online/login',[UfidaController::class,'doLogin']);
