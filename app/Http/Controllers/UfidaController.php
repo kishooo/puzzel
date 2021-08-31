@@ -462,23 +462,23 @@ class UfidaController extends Controller
   }
   public function ShowOrder($userId){
       $userName = DB::select('SELECT * FROM users WHERE id = '.$userId);
-      return view('order',[
-        'user'=>$userName
+      return view('userInterface.orderReg',[
+        'user'=>$userName[0]
       ]);
   }
   public function CreateOrder(Request $request,$userId){
+      $lastCart = DB::select("SELECT * FROM carts WHERE userId = ".$userId."  ORDER BY (id) DESC LIMIT 1");
+      $lastCartId=$lastCart[0]->id;
+      $itemLastCarts=DB::select("SELECT * FROM cart_item WHERE cartId = ".$lastCartId);
+
       $user =DB::select('SELECT * FROM users WHERE id = '.$userId);
       $request->validate([
               'name' => 'required',
-              //'type' => 'required|integer|min:0|max:2021',
               'email'=>'required',
-              'line1' => 'required',
-              'line2' => 'required',
+              'mobile'=>'required',
+              'Telephone' => 'required',
+              'address' => 'required',
               'city'=> 'required',
-              'province'=> 'required',
-              'country'=> 'required',
-
-
       ]);
 
       $order = DB::select('SELECT * FROM orders  WHERE userId ='.$userId.' ORDER BY  id DESC LIMIT 1');
@@ -489,20 +489,32 @@ class UfidaController extends Controller
 
       DB::table('orders')
         ->where('id',$orderId)
-        ->update(['name'=>$request->input('name'),'email'=>$request->input('email'),'line1'=>$request->input('line1'),'line2'=>$request->input('line2'),'mobile'=>$request->input('mobile'),'city'=>$request->input('city'),
-        'province'=>$request->input('province'),'country'=>$request->input('country'),'promo'=>$request->input('promo')]);
+        ->update(['name'=>$request->input('name'),'email'=>$request->input('email'),'line1'=>$request->input('Telephone'),'mobile'=>$request->input('mobile'),'city'=>$request->input('city'),
+        'province'=>$request->input('address')]);
 
-
-
-      view('order',[
-        'user'=>$user
-      ]);
       $order=DB::select('SELECT * FROM orders WHERE userId ='.$userId.' ORDER BY  id DESC LIMIT 1');
       $orderId =$order[0]->id;
-      return view('transaction',[
-        'orderId'=>$orderId,
-        'user'=>$userId,
-      ]);
+      foreach($itemLastCarts as $itemLastCart){
+        $productQuantity=DB::table('products')
+                          ->where('id',$itemLastCart->productId)
+                          ->update(['quantity'=>DB::raw('quantity-'.$itemLastCart->quantity)]);
+      }
+
+
+      DB::table('orders')
+        ->where('id',$orderId)
+        ->update(['updatable'=>0]);
+
+      //DB::insert('insert into transaction (userId,orderId,type,mode) values (?,?,?,?)', [$userId,$orderId,$request->input('type'),$request->input('mode')]);
+      //don't insert into carts
+      $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
+      //$lastCart= DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY  id DESC LIMIT 1');
+      $cartId = $getLast[0]->id;
+      DB::table('carts')
+        ->where('id',$cartId)
+        ->update(['updatable'=>0]);
+      DB::insert("INSERT INTO carts (userId) values(?)",[$userId]);
+      return redirect("HomePage/".$userId);
 
   }
   public function InsertIntoTran(Request $request,$userId,$orderId){
@@ -710,9 +722,9 @@ class UfidaController extends Controller
                 ->having('newPrice','>','0')
                 ->first();
       if(is_null($checkproductPrice)){
-          DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$selectedProductId,$products[0]->title,$products[0]->price,$cartId[0]->id,1]);
+          DB::insert('insert into cart_Item (productId,title,arTitle,price,cartId,quantity) values (?,?,?,?,?,?)', [$selectedProductId,$products[0]->title,$products[0]->arTitle,$products[0]->price,$cartId[0]->id,1]);
       }else{
-        DB::insert('insert into cart_Item (productId,title,price,cartId,quantity) values (?,?,?,?,?)', [$selectedProductId,$products[0]->title,$products[0]->newPrice,$cartId[0]->id,1]);
+        DB::insert('insert into cart_Item (productId,title,arTitle,price,cartId,quantity) values (?,?,?,?,?,?)', [$selectedProductId,$products[0]->title,$products[0]->arTitle,$products[0]->newPrice,$cartId[0]->id,1]);
       }
     }
     else{

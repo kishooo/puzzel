@@ -56,8 +56,8 @@ Route::post('/products/{productId}/{userId}',[UfidaController::class,'addcartToU
 Route::post('/online/ShowProducts/{productId}/{selecedProductId}/{userId}',[UfidaController::class,'addcartToShowDescription']);
 Route::get('/online/showcart/{userId}',[UfidaController::class,'ShowCartUfida']);
 Route::post('/online/showcart/{userId}',[UfidaController::class,'PostCart']);
-Route::get('online/products/Order/{userId}',[UfidaController::class,'ShowOrder']);
-Route::post('/online/products/Order/{userId}',[UfidaController::class,'CreateOrder']);
+Route::get('/HomePage/products/Order/{userId}',[UfidaController::class,'ShowOrder']);
+Route::post('/HomePage/products/Order/{userId}',[UfidaController::class,'CreateOrder']);
 Route::post('products/Order/transaction/{userId}/{orderId}',[UfidaController::class,'InsertIntoTran']);
 Route::get('/products/review/{productId}/{userId}',[UfidaController::class,'ShowReview']);
 Route::get('/products/review/{productId}',[UfidaController::class,'ShowReviewOnly']);
