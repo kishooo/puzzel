@@ -47,7 +47,27 @@
                       <button type="submit" class="button">Save</button>
                   </form>
               </div>
+<<<<<<< HEAD
 
+=======
+              
+               <h2 class="title">Reviews</h2>
+              <div class="feedback">
+                <div class="small-container">
+                    <div class="row">
+                  
+                        <div class="col-3">
+                            <i class="fa fa-quote-left"></i>
+                            <p>good product</p>
+                           <h4>lamasa</h4>
+                           <h6>By ahmed</h6>
+                        </div>
+    
+                    </div>
+                </div>
+              </div>
+                
+>>>>>>> 837dfc475ee081acc1b6652eb5b52290e9ed97ba
             <!--------------products-->
             <div class="small-container" id="Recommended">
                 <h2 class="title">Recommended Products</h2>
