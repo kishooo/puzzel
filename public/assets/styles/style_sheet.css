@@ -32,8 +32,7 @@ html, body {
     display: inline-block;
     background-color:#fff;
     padding: 8px 30px;
-      margin-top: -10px;
-    margin: 0px 0;
+    margin: 30px 0;
     color: #00695c;
     border-radius: 5px;
     transition: background 0.5s;
@@ -96,7 +95,7 @@ nav ul li a:hover{
 }
 .col-2 h4{
     color:#000;
-}
+} 
 .col-2 span{
     font-size: 22px;
     color:#338f60;
@@ -338,12 +337,18 @@ border-collapse:collapse;
     display:flex;
     flex-wrap: wrap;
 }
-th{
+.en th{
     text-align:left;
     padding:8px;
     color:#fff;
     background:#338f60;
     font-weight: normal;
+}
+.ar th{
+    color:#fff;
+    background:#338f60;
+    font-weight: normal;
+    padding:8px;
 }
 td{
     padding:10px 5px;
@@ -500,16 +505,50 @@ form a{
     transform: translateX(80px);
     transition: transform 1s;
 }
+#indicatorar{
+    width: 65px;
+    border: none;
+    background: #00e676;
+    height: 3px;
+    margin-top: 8px;
+    transform: translateX(50px);
+    transition: transform 1s;
+}
 
+.order{
+    margin-left: 25%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 50rem;
+}
 
-
+.order h3{
+    color: #338f60;
+}
+.order .form-group{
+    text-align: left;
+    margin: 20px;
+}
+.arorder .form-group{
+    text-align: right;
+    direction: rtl;
+    margin: 20px;
+}
 @media only screen and (max-width: 800px)
 {
+    .order{
+        margin-left: 10%;
+        float: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        width: 20rem;
+    }
+    
 nav ul{
        top: 74px;
        right: 0;
        background: linear-gradient(to top, #eceff1, #338f60);;
-       width: 130px;
+       width: 150px;
        position: absolute;
        overflow: hidden;
        text-align: center;
@@ -524,7 +563,7 @@ nav ul{
 ul li .button-j{
     display: block;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     text-align: center;
     z-index: 1000;
 }
@@ -533,6 +572,9 @@ nav ul li a {
     text-align: center;
     z-index: 1000;
     margin-bottom: 20px;
+}
+ul li:last-child{
+    margin-bottom: 30px;
 }
 .navbar a{
     color: #fff;
@@ -657,3 +699,4 @@ td{
     display: block;
 }
 }
+
