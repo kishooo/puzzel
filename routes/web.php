@@ -39,13 +39,20 @@ Route::group(['namespace'=>'adminPage','middleware'=>'auth:web'],function(){
   Route::post('/admin/Create/Category/{userId}',[AdminController::class,'DoCreateCategory']);
 });
 
+Route::get('online/login',[UfidaController::class,'login'])->name('user.login');
+Route::post('online/login',[UfidaController::class,'doLogin']);
+Route::get('/HomePage/{userId}',[ufidaController::class,'HomePage']);
+Route::get('/HomePage/category/{categoryId}',[UfidaController::class,'productPage']);
+Route::get('/online/ShowProducts/{productId}/{userId}',[UfidaController::class,'ShowDescription']);
 
-
+Route::post('online/Register',[UfidaController::class,'Register']);
+Route::group(['namespace'=>'userPage','middleware'=>'auth:web'],function(){
+Route::post('online/logout',[UfidaController::class,'doLogout']);
 Route::get('/online/products/{userId}',[UfidaController::class,'index']);
 Route::get('/online/products',[UfidaController::class,'ShowProductsOnly']);
 Route::post('/products/{productId}/{userId}',[UfidaController::class,'addcartToUser']);
 
-Route::get('/online/ShowProducts/{productId}/{userId}',[UfidaController::class,'ShowDescription']);
+
 Route::post('/online/ShowProducts/{productId}/{selecedProductId}/{userId}',[UfidaController::class,'addcartToShowDescription']);
 Route::get('/online/showcart/{userId}',[UfidaController::class,'ShowCartUfida']);
 Route::post('/online/showcart/{userId}',[UfidaController::class,'PostCart']);
@@ -55,19 +62,19 @@ Route::post('products/Order/transaction/{userId}/{orderId}',[UfidaController::cl
 Route::get('/products/review/{productId}/{userId}',[UfidaController::class,'ShowReview']);
 Route::get('/products/review/{productId}',[UfidaController::class,'ShowReviewOnly']);
 Route::post('/products/review/{productId}/{userId}',[UfidaController::class,'SubmitWriteReview']);
-Route::post('online/logout',[ufidaController::class,'doLogout']);
 
-Route::get('online/login',[UfidaController::class,'login']);
-Route::post('online/Register',[UfidaController::class,'Register']);
-Route::post('online/login',[UfidaController::class,'doLogin']);
-Route::get('/HomePage/{userId}',[ufidaController::class,'HomePage']);
+
+
+
+//Route::get('/HomePage/{userId}',[ufidaController::class,'HomePage']);
 Route::post('/HomePage/{productId}/{userId}',[UfidaController::class,'addcartToUserHomePage']);
 Route::post('/HomePage/category/{divId}/{productId}/{categoryId}/{userId}',[UfidaController::class,'addcartToUserProductPage']);
-Route::get('/HomePage/category/{categoryId}',[UfidaController::class,'productPage']);
+
 Route::get('/HomePage/category/ShowCart/{userId}',[UfidaController::class,'ShowCartUfida']);
 Route::post('/HomePage/category/ShowCart/{userId}',[UfidaController::class,'PostCartUfida']);
 Route::post('/HomePage/category/ShowCart/{cartItemId}/{userId}',[UfidaController::class,'DeleteCart']);
 Route::get('/HomePage/category/ConfirmCart/{userId}',[UfidaController::class,'ConfirmCartUfida']);
+});
 
 Route::get('/HomePage/product/description',function(){
   return view('userInterface.description');

@@ -106,7 +106,7 @@ class UfidaController extends Controller
       $productWithCategory=DB::select("SELECT * , products.title  AS productTitle , categories.id As categoriesId FROM products JOIN product_categories on(products.id=product_categories.productId) JOIN categories on(product_categories.categoryId=categories.id)");
       //$userName = DB::select('SELECT * FROM users WHERE id = '.$userId);
 
-      if(is_string($userId)){
+      if(!is_string($userId)){
         $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
         if(is_null($getLast) || empty($getLast)){
           DB::insert('insert into carts (userId) values (?)', [$userId]);

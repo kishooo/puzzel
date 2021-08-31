@@ -26,7 +26,7 @@
                             @if (Auth::user())
                             <button type="submit" class="button">Add to cart</button>
                             @else
-                            <a herf="/online/login" class="button">login to Add to cart</a>
+                            <a href="/online/login" class="button">login to Add to cart</a>
                             @endif
                         </form>
                       </div>
