@@ -43,15 +43,11 @@
                       <label for="formGroupExampleInput2">Review</label>
                       <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="formGroupExampleInput2">Photo</label>
-                        <input type="file" class="form-control" id="formGroupExampleInput2" placeholder="">
-                      </div>
-                    
+
                       <button type="submit" class="button">Save</button>
                   </form>
               </div>
-                
+
             <!--------------products-->
             <div class="small-container" id="Recommended">
                 <h2 class="title">Recommended Products</h2>
