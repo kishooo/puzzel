@@ -11,20 +11,24 @@
                     <div class="col-2">
                         <div class="descr">
                     <h4>Product name :<span>{{$product->title}}</span></h4>
-                    <h4>Recommended Use : <span>Household disinfecting – sanitizing and laundry bleach</span></h4>
-                        <h4>Product Code : <span>{{$product->id}}</span></h4>
+                    <h4>Recommended Use : <span>{{$product->Recommended}}</span></h4>
+                        <h4>Product Code : <span>{{$product->barCode}}</span></h4>
                     @if($product->newPrice!=0)
                     <h4>Price: <span>{{$product->newPrice}}</span></h4>
                     @else
-                    <h4>Price: <span>{{$product->price}}</span></h4>
+                    <h4>Price: <span>{{$product->price}} egy</span></h4>
                     @endif
                     <h4>Product Details:</h4>
                     <p>{{$product->summary}}.</p>
+                    <form action="/online/ShowProducts/MainProducts/{{$product->id}}/{{$product->id}}" method="post">
+
+                      @csrf
                     @if (Auth::user())
                         <button type="submit" class="button">Add to cart</button>
                     @else
                         <a href="/online/login" class="button">Login to add into cart</a>
                     @endif
+                    </form>
                     </div>
                     </div>
                 </div>
@@ -36,7 +40,7 @@
  <h2 class="title">Add Review for this Product</h2>
 
                <div class="card review" >
-                <form action ="/online/ShowProducts/{{$product->id}}/{{Auth::user()->id}}" method="post">
+                <form action ="/online/ShowProducts/{{$product->id}}" method="post">
                   @csrf
                     <div class="form-group">
                       <label for="formGroupExampleInput">title</label>
@@ -79,16 +83,16 @@
                 <div class="row">
                     <div class="col-4" >
                       @if(Auth::user())
-                      <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue0[0]->id}}/{{Auth::user()->id}}" method="post">
+                      <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue0[0]->id}}" method="post">
                         @else
-                        <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue0[0]->id}}/visitor" method="post">
+                        <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue0[0]->id}}" method="post">
 
                         @endif
                         @csrf
                         @if(Auth::user())
-                        <a href="/online/ShowProducts/{{$randValue0[0]->id}}/{{Auth::user()->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue0[0]->image ).' '}}"></a>
+                        <a href="/online/ShowProducts/{{$randValue0[0]->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue0[0]->image ).' '}}"></a>
                         @else
-                        <a href="/online/ShowProducts/{{$randValue0[0]->id}}/visitor"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue0[0]->image ).' '}}"></a>
+                        <a href="/online/ShowProducts/{{$randValue0[0]->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue0[0]->image ).' '}}"></a>
                         @endif
 
                         <h4>{{$randValue0[0]->title}}<br></h4>
@@ -102,16 +106,16 @@
                     </div>
                     <div class="col-4">
                       @if (Auth::user())
-                        <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue1[0]->id}}/{{Auth::user()->id}}" method="post">
+                        <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue1[0]->id}}" method="post">
                           @csrf
                       @else
-                        <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue1[0]->id}}/visitor" method="post">
+                        <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue1[0]->id}}" method="post">
                           @endif
                           @csrf
                           @if(Auth::user())
-                          <a href="/online/ShowProducts/{{$randValue1[0]->id}}/{{Auth::user()->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue1[0]->image ).' '}}"></a>
+                          <a href="/online/ShowProducts/{{$randValue1[0]->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue1[0]->image ).' '}}"></a>
                           @else
-                          <a href="/online/ShowProducts/{{$randValue1[0]->id}}/visitor"><img src="{{ asset('images/'. $randValue1[0]->image) }}"></a>
+                          <a href="/online/ShowProducts/{{$randValue1[0]->id}}"><img src="{{ asset('images/'. $randValue1[0]->image) }}"></a>
                           @endif
                           <h4>{{$randValue1[0]->title}}<br></h4>
                           <p>{{$randValue1[0]->price}}</p>
@@ -129,9 +133,9 @@
                         @endif
                         @csrf
                         @if(Auth::user())
-                        <a href="/online/ShowProducts/{{$randValue2[0]->id}}/{{Auth::user()->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue2[0]->image ).' '}}"></a>
+                        <a href="/online/ShowProducts/{{$randValue2[0]->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue2[0]->image ).' '}}"></a>
                         @else
-                        <a href="/online/ShowProducts/{{$randValue2[0]->id}}/visitor"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue2[0]->image ).' '}}"></a>
+                        <a href="/online/ShowProducts/{{$randValue2[0]->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue2[0]->image ).' '}}"></a>
                         @endif
                         <h4>{{$randValue2[0]->title}}<br></h4>
                         <p>{{$randValue2[0]->price}}</p>
@@ -144,12 +148,12 @@
                     </div>
 
                       <div class="col-4">
-                        <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue3[0]->id}}/1" method="post">
+                        <form  action="/online/ShowProducts/{{$product->id}}/{{$randValue3[0]->id}}" method="post">
                           @csrf
                           @if(Auth::user())
-                          <a href="/online/ShowProducts/{{$randValue3[0]->id}}/{{Auth::user()->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue3[0]->image ).' '}}"></a>
+                          <a href="/online/ShowProducts/{{$randValue3[0]->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue3[0]->image ).' '}}"></a>
                           @else
-                          <a href="/online/ShowProducts/{{$randValue3[0]->id}}/visitor"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue3[0]->image ).' '}}"></a>
+                          <a href="/online/ShowProducts/{{$randValue3[0]->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $randValue3[0]->image ).' '}}"></a>
                           @endif
                           <h4>{{$randValue3[0]->title}}<br></h4>
                           <p>{{$randValue3[0]->price}}</p>

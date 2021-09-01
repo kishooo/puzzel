@@ -32,7 +32,6 @@ html, body {
     display: inline-block;
     background-color:#fff;
     padding: 8px 30px;
-    margin: 30px 0;
     color: #00695c;
     border-radius: 5px;
     transition: background 0.5s;
@@ -61,7 +60,7 @@ nav ul{
 }
 nav ul li{
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 nav ul li a:hover{
@@ -95,7 +94,7 @@ nav ul li a:hover{
 }
 .col-2 h4{
     color:#000;
-} 
+}
 .col-2 span{
     font-size: 22px;
     color:#338f60;
@@ -714,4 +713,3 @@ td{
     display: block;
 }
 }
-

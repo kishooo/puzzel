@@ -15,7 +15,7 @@
                 <tr>
                     <td>
                         <div class="cart-info">
-                            <img src="<?php echo e(asset('images/'. $itemCart->image)); ?>">
+                            <img src="<?php echo e('data:image/jpeg;base64,'.base64_encode( $itemCart->image ).' '); ?>">
                             <div>
                                 <p><?php echo e($itemCart->title); ?></p>
                                 <small>Price per unit <?php echo e($itemCart->finalProductPrice); ?> EGP</small>
@@ -30,15 +30,18 @@
             </table>
            </div>
            <div class="total-price">
+             <form name="form">
+               <?php echo csrf_field(); ?>
             <table>
                 <tr>
                     <td>Total</td>
                     <td><?php echo e($overAllTotal->totalPrice); ?> EGP</td>
                 </tr>
                 <tr>
-                <td><button type="submit" onclick="javascript: form.action='/HomePage/category/ShowCart/1'; form.method='post';" class="button">confirm</button></td>
+                <td><button type="submit" onclick="javascript: form.action='/HomePage/submit/category/ShowCart'; form.method='post';" class="button">confirm</button></td>
               </tr>
             </table>
+            </form>
         </div>
 
 <?php $__env->stopSection(); ?>

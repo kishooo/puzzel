@@ -3,7 +3,7 @@
 
 <div class="card order">
     <h3>Shipping details</h3>
-    <form action="/HomePage/products/Order/{{Auth::user()->id}}" method="post">
+    <form action="/HomePage/products/Order" method="post">
       @csrf
         <div class="form-group">
           <label for="formGroupExampleInput">Name</label>

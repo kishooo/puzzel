@@ -25,7 +25,7 @@
             <nav>
                 <ul id="MenuItems">
                     @if (Auth::user())
-                    <li><a href="/HomePage/{{Auth::user()->id}}">Home</a></li>
+                    <li><a href="/HomePage">Home</a></li>
                     @else
                     <li><a href="/HomePage/visitor">Home</a></li>
                     @endif
@@ -35,7 +35,7 @@
                       $categories=DB::select("SELECT * From categories");
                     ?>
                     @foreach($categories as $category)
-                      <li><a href="/HomePage/category/{{$category->id}}">{{$category->title}}</i></a></li>
+                      <li><a href="/HomePage/category/products/{{$category->id}}">{{$category->title}}</i></a></li>
                     @endforeach
                     @if (Auth::user())
                     <li>
@@ -43,15 +43,15 @@
                       @csrf
                     <a><button type="submit" style="color:#338f60" class="button-j">logout</button></a>
                   </form>
-
                 </li>
+
                     @else
                     <li class="bt"><a style="color:#338f60" href="/online/login" class="button-j">Join</a></li>
                     @endif
                 </ul>
             </nav>
             @if (Auth::user())
-            <a href="/HomePage/category/ShowCart/{{Auth::user()->id}}"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
+            <a href="/HomePage/category/ShowCart"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
             @else
             <a href="/online/login"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
             @endif

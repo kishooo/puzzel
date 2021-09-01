@@ -37,7 +37,7 @@
                     <div class="row col-12">
                       @foreach($categories as $category)
                         <div class="col-3">
-                            <a href="/HomePage/category/{{$category->categoryId}}"> <img class="responsive" src="{{'data:image/png;base64,'.base64_encode( $category->smallImage ).' '}}"></a>
+                            <a href="/HomePage/category/products/{{$category->categoryId}}"> <img class="responsive" src="{{'data:image/png;base64,'.base64_encode( $category->smallImage ).' '}}"></a>
                         </div>
                       @endforeach
                     </div>
@@ -52,11 +52,11 @@
             @foreach($products as $product)
             <div class="col-4">
                         @if (Auth::user())
-                        <a href="/online/ShowProducts/{{$product->id}}/{{Auth::user()->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}" /></a>
-                        <a href="/online/ShowProducts/{{$product->id}}/{{Auth::user()->id}}"><h5>{{$product->title}}</h5></a>
+                        <a href="/online/ShowProducts/{{$product->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}" /></a>
+                        <a href="/online/ShowProducts/{{$product->id}}"><h5>{{$product->title}}</h5></a>
                         @else
-                        <a href="/online/ShowProducts/{{$product->id}}/visitor"><img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}" /></a>
-                        <a href="/online/ShowProducts/{{$product->id}}/visitor"><h5>{{$product->title}}</h5></a>
+                        <a href="/online/ShowProducts/{{$product->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}" /></a>
+                        <a href="/online/ShowProducts/{{$product->id}}"><h5>{{$product->title}}</h5></a>
                         @endif
                         <h6>{{$product->price}} EGP</h6>
                         @if(Auth::user())

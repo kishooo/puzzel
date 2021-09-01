@@ -1,6 +1,6 @@
 @extends('userInterface.header')
 @section('content')
-            <img src="{{asset('/images/Banner-Clorina.jpg')}}" class="pic">
+            <img src="{{'data:image/jpeg;base64,'.base64_encode( $category->bigImage ).' '}}" class="pic">
 
             <!--------------products-->
             <div class="small-container">
@@ -15,13 +15,13 @@
 
                 <div class="col-4" id="{{$i}}">
                         @if(Auth::user())
-                       <a href="/online/ShowProducts/{{$product->productId}}/{{Auth::user()->id}}"> <img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}"></a>
+                       <a href="/online/ShowProducts/{{$product->productId}}"> <img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}"></a>
                        @else
-                       <a href="/online/ShowProducts/{{$product->productId}}/visitor"> <img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}"></a>
+                       <a href="/online/ShowProducts/{{$product->productId}}"> <img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}"></a>
                        @endif
                         <h5>{{$product->productTitle}}<br></h5>
                         <h6>{{$product->price}} EGP</h6>
-                        <form method="post" action="/HomePage/category/{{$i}}/{{$product->productId}}/{{$product->categoryId}}/1">
+                        <form method="post" action="/HomePage/category/{{$i}}/{{$product->productId}}/{{$product->categoryId}}">
                           @csrf
                             @if (Auth::user())
                             <button type="submit" class="button">Add to cart</button>

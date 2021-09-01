@@ -24,15 +24,15 @@
                             </div>
                         </div>
                     </td>
-                    <td><input class="qn" name="quantities[{{$i}}]" type="number" value="{{$itemCart->cart_itemQuantity}}" min="0"></td>
-                    <td><button type="submit" name="cancel" onclick="javascript: form.action='/HomePage/category/ShowCart/{{$itemCart->cart_itemId}}/1'; form.method='post';" class="button bd">Delete</button></td>
+                    <td><input class="qn" name="quantities[{{$i}}]" type="number" value="{{$itemCart->cart_itemQuantity}}" min="1"></td>
+                    <td><button type="submit" name="cancel" onclick="javascript: form.action='/HomePage/category/ShowCart/{{$itemCart->cart_itemId}}'; form.method='post';" class="button bd">Delete</button></td>
 
                       @php($i++)
                 </tr>
                 @endforeach
 
                 <tr>
-                  <td><button type="submit" onclick="javascript: form.action='/HomePage/category/ShowCart/{{Auth::user()->id}}'; form.method='post';" class="button">confirm</button></td>
+                  <td><button type="submit" onclick="javascript: form.action='/HomePage/submit/category/ShowCart'; form.method='post';" class="button">confirm</button></td>
                 </tr>
             </table>
 

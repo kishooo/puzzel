@@ -317,14 +317,27 @@ class AdminController extends Controller
         }
         public function paidOrderIndex(Request $request,$userId,$orderId){
           $checkOrder=DB::select("SELECT * FROM orders WHERE id = ".$orderId."&& paid =0 ORDER BY id DESC LIMIT 1");
+          $lastCart = DB::select("SELECT * FROM carts WHERE userId = ".$userId."  ORDER BY (id) DESC LIMIT 1");
+          //$lastCartId=$lastCart[0]->id;
+          //$carttotalUser=DB::select("SELECT *, SUM(price) As totalPrice FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$lastCartId." && userId = ".$userId." GROUP BY(userId)  ORDER BY (userId) DESC LIMIT 1");
+
+          //$getPrice = $carttotalUser[0]->totalPrice;
+
           if(is_null($checkOrder)||empty($checkOrder)){
             DB::table('orders')
               ->where('id',$orderId)
               ->update(['paid'=>0]);
+
           }else{
             DB::table('orders')
               ->where('id',$orderId)
               ->update(['paid'=>1]);
+              if($getPrice>20){
+                ///DB::insert("INSERT INTO users (points) values(300)");
+                $productQuantity=DB::table('users')
+                                  ->where('id',$userId)
+                                  ->update(['points'=>DB::raw('points+1000')]);
+              }
           }
           return redirect("admin/".$userId);
         }
