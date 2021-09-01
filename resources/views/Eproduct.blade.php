@@ -20,9 +20,25 @@
 								<input name="Arname" type="text" class="form-control" id="exampleInputName1" placeholder="">
 							</div>
 							<div class="form-group">
+								<label for="exampleInputPrice1">ينصح للاستخدام بانجليزيه</label>
+								<input name="Recommended"  type="text" class="form-control" id="exampleInputPrice1" placeholder="">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputPrice1">ينصح للاستخدام بالعربيه</label>
+								<input name="arRecommended" type="text" class="form-control" id="exampleInputPrice1" placeholder="">
+							</div>
+							<div class="form-group">
+
+									<label for="exampleInputPrice1">ملخص بالعربيه</label>
+									<input name="arRecommended" type="text" class="form-control" id="exampleInputPrice1" placeholder="">
+								</div>
+							<div class="form-group">
+								<label for="exampleInputPrice1">ملخص بانجليزيه</label>
+								<input name="arSummary" type="text" class="form-control" id="exampleInputPrice1" placeholder="">
+							</div>
+							<div class="form-group">
 								<label for="exampleInputPrice1">سعر</label>
 								<input name="price" type="text" class="form-control" id="exampleInputPrice1" placeholder="">
-							</div>
                 <div class="form-group">
 								<label for="exampleInputcat1">قسم المنتج</label>
 								<select class="form-control" name="category">

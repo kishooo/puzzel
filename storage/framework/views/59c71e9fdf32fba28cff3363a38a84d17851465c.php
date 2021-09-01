@@ -35,6 +35,9 @@
                     <td>Total</td>
                     <td><?php echo e($overAllTotal->totalPrice); ?> EGP</td>
                 </tr>
+                <tr>
+                <td><button type="submit" onclick="javascript: form.action='/HomePage/category/ShowCart/1'; form.method='post';" class="button">confirm</button></td>
+              </tr>
             </table>
         </div>
 

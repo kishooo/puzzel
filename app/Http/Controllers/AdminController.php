@@ -61,6 +61,7 @@ class AdminController extends Controller
     $request->validate([
             'name' => 'required',
             'Arname'=>'required',
+            'Recommended'=>'required',
             'quantity' => 'required|integer|min:0|max:2021',
             'category'=>'required',
             'price' => 'required',
@@ -95,10 +96,10 @@ class AdminController extends Controller
 
 
     if(!empty($request->input('newPrice'))){
-      DB::insert('insert into products (arTitle,title,price,newPrice,image,quantity) values (?,?,?,?,?,?)', [$request->input('Arname'),$request->input('name'),$request->input('price'),$request->input('newPrice'),$newImageName,$request->input('quantity')]);
+      DB::insert('insert into products (arTitle,title,Recommended,price,newPrice,image,quantity) values (?,?,?,?,?,?,?)', [$request->input('Arname'),$request->input('name'),$request->input('price'),$request->input('newPrice'),$newImageName,$request->input('quantity')]);
 
       }else{
-          DB::insert('insert into products (arTitle,title,price,image,quantity) values (?,?,?,?,?)', [$request->input('Arname'),$request->input('name'),$request->input('price'),$newImageName,$request->input('quantity')]);
+          DB::insert('insert into products (arTitle,title,Recommended,price,image,quantity) values (?,?,?,?,?,?)', [$request->input('Arname'),$request->input('name'),$request->input('price'),$newImageName,$request->input('quantity')]);
       }
       $getProduct = DB::select("SELECT * FROM products ORDER BY id DESC LIMIT 1");
       $getIndexProduct = $getProduct[0]->id;
@@ -215,10 +216,12 @@ class AdminController extends Controller
       {
           $products = DB::select('SELECT * FROM products WHERE id='.$productId);
           //$editProduct =DB::update('update into products(title,price,newPrice,image) values(?,?,?,?) Where Id = '.$productId,[$request->input('name'),$request->input('price'),$request->input('newPrice'),$newImageName])
-          $getUser =DB::select('SELECT * FROM users WHERE id = 1');
+          $getUser =DB::select('SELECT * FROM users WHERE id = '.$userId);
+          $getAllCategories =DB::select('SELECT * FROM categories');
 
           return view('Editp',[
             'product'=>$products[0],
+            'categories'=>$getAllCategories,
             'user'=>$getUser[0]
           ]);
       }
@@ -235,7 +238,7 @@ class AdminController extends Controller
             //$editProduct =DB::update('UPDATE products SET title='.''.$request->input('name').''.',price='.$request->input('price').',newPrice='.$request->input('newPrice').',image= '.$newImageName.' Where id = '.$productId);
             DB::table('products')
               ->where('id',$productId)
-              ->update(['title' => $request->input('name'),'price' =>$request->input('price'),'newPrice'=>$request->input('newPrice'),'image'=>$newImageName,'quantity'=>$request->input('quantity'),'appeared'=>$request->input('appeared')]);
+              ->update(['title' => $request->input('name'),'price' =>$request->input('price'),'newPrice'=>$request->input('newPrice'),'image'=>$newImageName,'quantity'=>$request->input('quantity'),'appeared'=>$request->input('appeared'),'Recommended'=>$request->input('Recommended')]);
             $tasks_controller = new UfidaController;
 
             //return $tasks_controller->index($userId);
@@ -270,15 +273,21 @@ class AdminController extends Controller
           $countOrder=DB::select("SELECT COUNT(id) as numberOfOrders FROM orders WHERE paid=1");
           //$carttotalUser=DB::select("SELECT *, SUM(price) As totalPrice FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) JOIN users on(users.id=carts.userId) GROUP BY(carts.id)");
           $orderTable=DB::select("SELECT * FROM orders  WHERE paid=1");
+          $checkorder = 0;
+          if(empty($orderTotalPrice[0]->totalPrice)){
+            $checkorder = 0;
+          }else{
+            $checkorder =$orderTotalPrice[0]->totalPrice;
+          }
           return view("index",[
             'users'=>$countAllUsers[0]->numberOfUsers,
-            'ordersTotalPrice'=>$orderTotalPrice[0]->totalPrice,
+            'ordersTotalPrice'=>$checkorder,
             'ordersTable'=>$orderTable,
             'countOrder'=>$countOrder[0]->numberOfOrders,
           ]);
         }
         public function OutOfStockProducts($userId){
-            $products =DB::select("SELECT * FROM products WHERE quantity<3");
+            $products =DB::select("SELECT * FROM products WHERE quantity<25");
             return view("outOfStock",['products'=>$products]);
         }
 
@@ -305,6 +314,19 @@ class AdminController extends Controller
               ->update(['paid'=>1]);
           }
           return redirect("admin/ShowOrders/".$userId);
+        }
+        public function paidOrderIndex(Request $request,$userId,$orderId){
+          $checkOrder=DB::select("SELECT * FROM orders WHERE id = ".$orderId."&& paid =0 ORDER BY id DESC LIMIT 1");
+          if(is_null($checkOrder)||empty($checkOrder)){
+            DB::table('orders')
+              ->where('id',$orderId)
+              ->update(['paid'=>0]);
+          }else{
+            DB::table('orders')
+              ->where('id',$orderId)
+              ->update(['paid'=>1]);
+          }
+          return redirect("admin/".$userId);
         }
 
 }

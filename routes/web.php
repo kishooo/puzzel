@@ -18,6 +18,7 @@ use App\Http\Controllers\AdminController;
   Route::get('admin/login',[AdminController::class,'login'])->name('admin.login');
   Route::post('admin/login',[AdminController::class,'dologin']);
 Route::group(['namespace'=>'adminPage','middleware'=>'auth:web'],function(){
+
   Route::get('admin/create/{userId}',[AdminController::class,'create']);
   Route::post('admin/create/{userId}',[AdminController::class,'insert']);
   Route::post('admin/logout',[AdminController::class,'doLogout']);
@@ -29,6 +30,7 @@ Route::group(['namespace'=>'adminPage','middleware'=>'auth:web'],function(){
   Route::get('admin/ShowReviewAdmin/{userId}',[AdminController::class,'ShowReviewAdmin']);
   Route::get('admin/ShowOrders/{userId}',[AdminController::class,'ShowOrders']);
   Route::post('admin/ShowOrders/{orderId}/{userId}',[AdminController::class,'paidOrder']);
+  Route::post('/admin/indexPage/{orderId}/{userId}',[AdminController::class,'paidOrderIndex']);
   Route::get('admin/online/products/{userId}',[AdminController::class,'index']);
   Route::get('admin/{productCategory}/{userId}',[AdminController::class,'ShowProductsWithCat']);
   Route::get('admin/online/products/edit/{productId}/{userId}',[AdminController::class,'ShowEditProduct']);
@@ -44,6 +46,7 @@ Route::post('online/login',[UfidaController::class,'doLogin']);
 Route::get('/HomePage/{userId}',[ufidaController::class,'HomePage']);
 Route::get('/HomePage/category/{categoryId}',[UfidaController::class,'productPage']);
 Route::get('/online/ShowProducts/{productId}/{userId}',[UfidaController::class,'ShowDescription']);
+Route::post('/online/ShowProducts/{productId}/{userId}',[UfidaController::class,'SubmitWriteReview']);
 
 Route::post('online/Register',[UfidaController::class,'Register']);
 Route::group(['namespace'=>'userPage','middleware'=>'auth:web'],function(){
@@ -61,7 +64,7 @@ Route::post('/HomePage/products/Order/{userId}',[UfidaController::class,'CreateO
 Route::post('products/Order/transaction/{userId}/{orderId}',[UfidaController::class,'InsertIntoTran']);
 Route::get('/products/review/{productId}/{userId}',[UfidaController::class,'ShowReview']);
 Route::get('/products/review/{productId}',[UfidaController::class,'ShowReviewOnly']);
-Route::post('/products/review/{productId}/{userId}',[UfidaController::class,'SubmitWriteReview']);
+//Route::post('/products/review/{productId}/{userId}',[UfidaController::class,'SubmitWriteReview']);
 
 
 
@@ -74,6 +77,7 @@ Route::get('/HomePage/category/ShowCart/{userId}',[UfidaController::class,'ShowC
 Route::post('/HomePage/category/ShowCart/{userId}',[UfidaController::class,'PostCartUfida']);
 Route::post('/HomePage/category/ShowCart/{cartItemId}/{userId}',[UfidaController::class,'DeleteCart']);
 Route::get('/HomePage/category/ConfirmCart/{userId}',[UfidaController::class,'ConfirmCartUfida']);
+Route::post('/HomePage/category/ConfirmCart/{userId}',[UfidaController::class,'PostConfirmCart']);
 });
 
 Route::get('/HomePage/product/description',function(){

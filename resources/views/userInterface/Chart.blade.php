@@ -32,7 +32,7 @@
                 @endforeach
 
                 <tr>
-                  <td><button type="submit" onclick="javascript: form.action='/HomePage/category/ShowCart/1'; form.method='post';" class="button">confirm</button></td>
+                  <td><button type="submit" onclick="javascript: form.action='/HomePage/category/ShowCart/{{Auth::user()->id}}'; form.method='post';" class="button">confirm</button></td>
                 </tr>
             </table>
 

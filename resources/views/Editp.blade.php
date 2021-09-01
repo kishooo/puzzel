@@ -19,9 +19,38 @@
 								<label for="exampleInputPrice1">سعر</label>
 								<input name ="price" value="{{$product->price}}" type="text" class="form-control" id="exampleInputPrice1" placeholder="">
 							</div>
-                            <div class="form-group">
-								<label for="exampleInputcat1">قسم المنتج</label>
-								<input name="category"  type="text" class="form-control" id="exampleInputcat1" placeholder="">
+							<div class="form-group">
+							<label for="exampleInputcat1">قسم المنتج</label>
+							<select class="form-control" name="category">
+					<option>{{$categories[0]->title}}</option>
+
+							@foreach ($categories as $category)
+
+									<option name="category" value="{{ $category->title }}">
+
+											{{ $category->title }}
+
+									</option>
+
+							@endforeach
+						</select>
+												</div>
+							<div class="form-group">
+								<label for="exampleInputPrice1">ينصح للاستخدام بانجليزيه</label>
+								<input name="Recommended" value="{{$product->Recommended}}" type="text" class="form-control" id="exampleInputPrice1" placeholder="">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputPrice1">ينصح للاستخدام بالعربيه</label>
+								<input name="arRecommended" value="{{$product->arRecommended}}" type="text" class="form-control" id="exampleInputPrice1" placeholder="">
+							</div>
+							<div class="form-group">
+
+									<label for="exampleInputPrice1">ملخص بالعربيه</label>
+									<input name="arRecommended" value="{{$product->arSummary}}" type="text" class="form-control" id="exampleInputPrice1" placeholder="">
+								</div>
+							<div class="form-group">
+								<label for="exampleInputPrice1">ملخص بانجليزيه</label>
+								<input name="arSummary" value="{{$product->Summar}" type="text" class="form-control" id="exampleInputPrice1" placeholder="">
 							</div>
                             <div class="form-group">
 								<label for="exampleInputqu1">عدد المنتج</label>

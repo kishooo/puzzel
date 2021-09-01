@@ -10,6 +10,7 @@ use App\Http\Middleware;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 
 
@@ -220,9 +221,14 @@ class UfidaController extends Controller
   public function addcartToUserHomePage(Request $request, $productId,$userId){
       $userName = DB::select('SELECT * FROM users WHERE id = '.$userId);
       //DB::insert('insert into carts (userId,name) values (?,?)', [$userId,$userName[0]->name]);
+
+
+      $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
+      if(is_null($getLast) || empty($getLast)){
+        DB::insert('insert into carts (userId) values (?)', [$userId]);
+      }
       $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
       $cartId = $getLast[0]->id;
-
       DB::table('carts')
         ->where('id',$cartId)
         ->update(['name'=>$userName[0]->name]);
@@ -266,7 +272,7 @@ class UfidaController extends Controller
       return redirect("/HomePage/".$userId);
       //
   }
-  public function addcartToUserProductPage(Request $request, $productId,$categoryId,$userId){
+  public function addcartToUserProductPage(Request $request,$divId, $productId,$categoryId,$userId){
       $userName = DB::select('SELECT * FROM users WHERE id = '.$userId);
       //DB::insert('insert into carts (userId,name) values (?,?)', [$userId,$userName[0]->name]);
       $getLast = DB::select('SELECT * FROM carts WHERE userId = '.$userId.' ORDER BY id DESC LIMIT 1');
@@ -310,7 +316,7 @@ class UfidaController extends Controller
 
     //  }
       //return $tasks_controller->index($userId);
-      return redirect("/HomePage/category/".$productId);
+      return redirect("/HomePage/category/".$categoryId."#".$divId);
       //
   }
   public function showcart($userId){
@@ -394,7 +400,7 @@ class UfidaController extends Controller
               ->first();
 
 
-
+/*
     if(is_null($checkNull)){
       DB::insert('INSERT INTO orders (total,cartId,userId) values (?,?,?)',[$cartTotalUserLast[0]->totalPrice,$lastCart[0]->id,$userId]);
     }
@@ -408,7 +414,7 @@ class UfidaController extends Controller
       }else{
         DB::insert('INSERT INTO orders (total,cartId,userId) values (?,?,?)',[$cartTotalUserLast[0]->totalPrice,$lastCart[0]->id,$userId]);
       }
-    }
+    }*/
       //end of it
 
 
@@ -472,6 +478,7 @@ class UfidaController extends Controller
       $itemLastCarts=DB::select("SELECT * FROM cart_item WHERE cartId = ".$lastCartId);
 
       $user =DB::select('SELECT * FROM users WHERE id = '.$userId);
+      $cartTotalUserLast=DB::select("SELECT SUM(price) As totalPrice FROM cart_item  JOIN carts on(carts.id=cart_item.cartId) WHERE cartId = ".$lastCartId." GROUP BY(userId) ORDER BY (userId) DESC LIMIT 1");
       $request->validate([
               'name' => 'required',
               'email'=>'required',
@@ -490,7 +497,7 @@ class UfidaController extends Controller
       DB::table('orders')
         ->where('id',$orderId)
         ->update(['name'=>$request->input('name'),'email'=>$request->input('email'),'line1'=>$request->input('Telephone'),'mobile'=>$request->input('mobile'),'city'=>$request->input('city'),
-        'province'=>$request->input('address')]);
+        'province'=>$request->input('address'),'total'=>$cartTotalUserLast[0]->totalPrice]);
 
       $order=DB::select('SELECT * FROM orders WHERE userId ='.$userId.' ORDER BY  id DESC LIMIT 1');
       $orderId =$order[0]->id;
@@ -587,7 +594,7 @@ class UfidaController extends Controller
 
   public function SubmitWriteReview(Request $request,$productId,$userId){
       DB::insert('insert into product_review(userId,productId,title,content) values (?,?,?,?)', [$userId,$productId,$request->input('title'),$request->input('content')]);
-      return redirect('online/products/'.$userId);
+      return redirect('/online/ShowProducts/'.$productId.'/'.$userId.'#review');
   }
 
   public function ShowReviewOnly($productId){
@@ -630,9 +637,14 @@ class UfidaController extends Controller
            'email' => 'required|email',
            'Password' => 'required'
        ]);
-       $user = User::create(['name'=>$request->input('name'),'email'=>$request->input('email'),'password'=>$request->input('Password')]);
+
+       $user = User::create(['name'=>$request->input('name'),'email'=>$request->input('email'),'password'=>Hash::make($request->input('Password'))]);
+       /*$request->user()->fill([
+            'password' => Hash::make($request->input('Password')]);)
+        ])->save();*/
        Auth::login($user);
-       return redirect("HomePage");
+       $userId = Auth::user()->id;
+       return redirect("HomePage/".$userId);
     }
     public function doLogout(Request $request) {
       Auth::logout();
@@ -664,11 +676,15 @@ class UfidaController extends Controller
       'overAllTotal'=>$cartTotalUserLast[0],
     ]);
   }
+  public function PostConfirmCart(Request $request,$userId){
+    return redirect("/HomePage/products/Order/".$userId);
+  }
   public function ShowDescription($productId,$userId){
     $getProduct= DB::select('SELECT * FROM products WHERE id ='.$productId);
     $getFirstPro=DB::select('SELECT * FROM products ORDER BY  id DESC LIMIT 1');
     $getLastPro=DB::select('SELECT * FROM products ORDER BY  id ASC LIMIT 1');
     $selectRanId=rand($getFirstPro[0]->id,$getLastPro[0]->id);
+    $userReview = DB::select("SELECT * FROM users  JOIN product_review on(users.id=product_review.userId) WHERE published= 1 && productId=".$productId);
     $getRandVal=DB::select('SELECT * FROM products WHERE id ='.$selectRanId);
     $arrayOfRand=array();
 
@@ -690,6 +706,7 @@ class UfidaController extends Controller
       "randValue1"=>$getRandVal1,
       "randValue2"=>$getRandVal2,
       "randValue3"=>$getRandVal3,
+      "getReviews"=>$userReview,
     ]);
   }
   public function addcartToShowDescription(Request $request,$productId,$selectedProductId,$userId){
