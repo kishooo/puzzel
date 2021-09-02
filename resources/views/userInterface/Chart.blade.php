@@ -17,7 +17,7 @@
                 <tr>
                   <td>
                         <div class="cart-info">
-                            <img src="{{ asset('images/'. $itemCart->image) }}">
+                            <img src="{{'data:image/jpeg;base64,'.base64_encode( $itemCart->image ).' '}}">
                             <div>
                                 <p>{{$itemCart->title}}</p>
                                 <small>Price per unit {{$itemCart->finalProductPrice}} EGP</small>

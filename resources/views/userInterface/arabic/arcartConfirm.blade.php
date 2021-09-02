@@ -1,24 +1,24 @@
-@extends('userInterface.header')
+@extends('userInterface.arabic.arheader')
 @section('content')
 
 
 
            <!-----cart Items-->
            <div class="container cart-page">
-            <table>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
+            <table dir="rtl">
+                <tr class="ar">
+                    <th>المنتج</th>
+                    <th>كمية</th>
+                    <th>المجموع الفرعي</th>
                 </tr>
                 @foreach($itemCarts as $itemCart)
                 <tr>
                     <td>
                         <div class="cart-info">
-                            <img src="{{'data:image/jpeg;base64,'.base64_encode( $itemCart->image ).' '}}">
+                            <img src="{{ asset('images/'. $itemCart->image) }}">
                             <div>
                                 <p>{{$itemCart->title}}</p>
-                                <small>Price per unit {{$itemCart->finalProductPrice}} EGP</small>
+                                <small>السعر لكل وحدة {{$itemCart->price}} EGP</small>
                             </div>
                         </div>
                     </td>
@@ -30,18 +30,13 @@
             </table>
            </div>
            <div class="total-price">
-             <form name="form">
-               @csrf
             <table>
                 <tr>
-                    <td>Total</td>
                     <td>{{$overAllTotal->totalPrice}} EGP</td>
+                    <td>المجموع</td>
+                   
                 </tr>
-                <tr>
-                <td><button type="submit" onclick="javascript: form.action='/HomePage/confirm/category/ConfirmCart'; form.method='post';" class="button">confirm</button></td>
-              </tr>
             </table>
-            </form>
         </div>
 
 @endsection

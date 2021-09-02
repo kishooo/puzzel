@@ -18,44 +18,23 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="navbar">
+        <div class="navbar" dir="rtl">
             <div class="logo">
                 <img src="{{asset('/assets/images/logo.png')}}">
             </div>
             <nav>
-                <ul id="MenuItems">
-                    @if (Auth::user())
-                    <li><a href="/HomePage">Home</a></li>
-                    @else
-                    <li><a href="/HomePage">Home</a></li>
-                    @endif
-                    <li><a href="/HomePage#About">About</a></li>
-
-                    <?php
-                      $categories=DB::select("SELECT * From categories");
-                    ?>
-                    @foreach($categories as $category)
-                      <li><a href="/HomePage/category/products/{{$category->id}}">{{$category->title}}</i></a></li>
-                    @endforeach
-                    @if (Auth::user())
-                    <li>
-                    <form action="/online/logout" method="post">
-                      @csrf
-                    <a><button type="submit" style="color:#338f60" class="button-j">logout</button></a>
-                  </form>
-                </li>
-
-                    @else
-                    <li class="bt"><a style="color:#338f60" href="/online/login" class="button-j">Join</a></li>
-                    @endif
-                    <li href="/hhh">العربية</li>
+                <ul id="MenuItems" >
+                    <li><a href="/arHomePage">الرئيسية</a></li>
+                    <li><a href="#About">من نحن</a></li>
+                    <li><a href="#Brand">لامسة</i></a></li>
+                    <li><a href="#Brand">كلورينا</i></a></li>
+                    <li><a href="#Brand">تجملي</i></a></li>
+                    <li><a href="#contact">تواصل</a></li>
+                    <li class="bt"><a style="color:#338f60" href="/online/arlogin" class="button-j">تسجيل </a></li>
+                    <li><a href="/HomePage">English</a></li>
                 </ul>
             </nav>
-            @if (Auth::user())
-            <a href="/HomePage/category/ShowCart"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
-            @else
-            <a href="/online/login"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
-            @endif
+            <a href="/HomePage/category/arShowCart/1"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
             <img src="{{asset('/images/menu.png')}}" class="menu-icon" onclick="menudropper()">
 
         </div>
@@ -67,7 +46,7 @@
             <div class="container">
                 <div class="row col-12 col-sm-12">
                     <div class="footerr-col-2 col-6 col-sm-12">
-                        <p>Our Purpose Is To Make The satisfiction and <br> make our product Accessible to Many</p>
+                        <p>هدفنا هو تحقيق الرضا و <br> اجعل منتجنا في متناول الكثيرين</p>
                         <a href="https://www.facebook.com/Ufida.for.Chemical.Industry"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-instagram"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
@@ -105,18 +84,19 @@
   <script>
     var LoginForm = document.getElementById("LoginForm");
     var RegForm = document.getElementById("RegForm");
-    var Indicator = document.getElementById("indicator");
+    var Indicatorar = document.getElementById("indicatorar");
+    
 
     function register(){
         RegForm.style.transform = "translateX(0px)";
         LoginForm.style.transform = "translateX(0px)";
-        Indicator.style.transform ="translateX(80px)";
+        Indicatorar.style.transform ="translateX(50px)";
     }
 
     function login(){
         RegForm.style.transform = "translateX(300px)";
         LoginForm.style.transform = "translateX(300px)";
-        Indicator.style.transform ="translateX(0px)";
+        Indicatorar.style.transform ="translateX(180px)";
     }
     var MenuItems = document.getElementById("MenuItems");
     MenuItems.style.maxHeight="0px";
@@ -127,7 +107,7 @@
         else{
             MenuItems.style.maxHeight="0px";
         }
-
+    
     }
 
 </script>
