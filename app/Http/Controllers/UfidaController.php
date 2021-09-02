@@ -275,7 +275,7 @@ class UfidaController extends Controller
       view("userInterface.header",["categories"=>$categories]);
     //  }
       //return $tasks_controller->index($userId);
-      return redirect("/HomePage");
+      return redirect("/#product");
       //
   }
   public function addcartToUserProductPage(Request $request,$divId,$productId,$categoryId){

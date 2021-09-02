@@ -86,23 +86,27 @@
             <!---------offer--------->
             <div class="offer">
               <div class="small-container">
-                  <div class="row">
-                      <div class="col-2">
-                          <img src="{{asset('/assets/images/ufida.png')}}" class="offer-img responsive">
-                      </div>
-                      <div class="col-2">
-                          <p>Exlusively Avaliable</p>
-                          <h1>Smart band 4</h1>
-                          <small>blah blah blah vgvhchffgfhjcgghggggf gyfgjgghvgvhjdhiufhkjj hfdjfhgduyfhsjkd</small>
-                          <a href="#" class="button">Buy Now</a>
-                      </div>
-                  </div>
+                <div class="row">
+                    <div class="about" id="About">
+                        <h1>About Us <span><br>Ufida For Chemical Industries</span></h1>
+                        <p>Ufida is a leading company in the field of industrial detergents over products are of high quality
+                            and competitively priced locally and conforming to European standards and public health and safety standards.
+                            We strive to develop with over expertise and competencies that allows to always providing the best and we have
+                            contributed to the Egyptian market, with over products by supplying to hypermarkets, hospitals, restaurants and hotels.
+                        </p>
+                        <a href="online/login" class="button">Get Started </a>
+                    </div>
+                    <div class="about">
+                        <img src="{{asset('/assets/images/ufida.png')}}">
+                    </div>
+                </div>
               </div>
           </div>
 
 
     <!-------------Feed Backs---------->
-    <div class="feedback">
+    <h2 class="title">Products Reviews</h2>
+    <div id="review" class="feedback">
         <div class="small-container">
             <div class="row">
           @foreach($reviews as $review)
@@ -120,20 +124,7 @@
         </div>
       </div>
       <!---------About Us----->
-      <div class="row">
-          <div class="about" id="About">
-              <h1>About Us <span><br>Ufida For Chemical Industries</span></h1>
-              <p>Ufida is a leading company in the field of industrial detergents over products are of high quality
-                  and competitively priced locally and conforming to European standards and public health and safety standards.
-                  We strive to develop with over expertise and competencies that allows to always providing the best and we have
-                  contributed to the Egyptian market, with over products by supplying to hypermarkets, hospitals, restaurants and hotels.
-              </p>
-              <a href="online/login" class="button">Get Started </a>
-          </div>
-          <div class="about">
-              <img src="{{asset('/assets/images/ufida.png')}}">
-          </div>
-      </div>
+
 
 
   </div>

@@ -25,8 +25,8 @@
             <nav>
                 <ul id="MenuItems" >
                     <li><a href="/ARHomePage">الرئيسية</a></li>
-                    <li><a href="#About">من نحن</a></li>
-                    <li><a href="#contact">تواصل</a></li>
+                    <li><a href="/ARHomePage#About">من نحن</a></li>
+                    <li><a href="/ARHomePage#review">التقييمات</a></li>
                     <?php
                       $categories=DB::select("SELECT * From categories");
                     ?>
@@ -37,10 +37,10 @@
                     <li>
                     <form action="/ARonline/logout" method="post">
                       @csrf
-                    <a><button type="submit" style="color:#338f60" class="button-j">logout</button></a>
+                    <a><button type="submit" style="color:#338f60" class="button-j">تسجيل الخروج</button></a>
                   </form>
                   @else
-                  <li class="bt"><a style="color:#338f60" href="/ARonline/login" class="button-j">Join</a></li>
+                  <li class="bt"><a style="color:#338f60" href="/ARonline/login" class="button-j">تسجيل دخول</a></li>
                   @endif
 
                     <li><a href="/HomePage">English</a></li>

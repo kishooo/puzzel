@@ -30,9 +30,10 @@
             </table>
            </div>
            <div class="total-price">
-             <form name="form">
-               @csrf
+             
             <table>
+              <form name="form">
+                @csrf
                 <tr>
                     <td>Total</td>
                     <td>{{$overAllTotal->totalPrice}} EGP</td>
@@ -40,8 +41,9 @@
                 <tr>
                 <td><button type="submit" onclick="javascript: form.action='/HomePage/confirm/category/ConfirmCart'; form.method='post';" class="button">confirm</button></td>
               </tr>
+                </form>
             </table>
-            </form>
+
         </div>
 
 @endsection

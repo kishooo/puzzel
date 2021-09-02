@@ -44,7 +44,7 @@ Route::group(['namespace'=>'adminPage','middleware'=>'auth:web'],function(){
 
 Route::get('online/login',[UfidaController::class,'login'])->name('user.login');
 Route::post('online/login',[UfidaController::class,'doLogin']);
-Route::get('/HomePage',[ufidaController::class,'HomePage']);
+Route::get('',[ufidaController::class,'HomePage']);
 Route::get('/HomePage/category/products/{categoryId}',[UfidaController::class,'productPage']);
 Route::get('/online/ShowProducts/{productId}',[UfidaController::class,'ShowDescription']);
 Route::post('/online/ShowProducts/{productId}',[UfidaController::class,'SubmitWriteReview']);

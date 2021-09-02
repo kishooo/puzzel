@@ -25,12 +25,12 @@
             <nav>
                 <ul id="MenuItems">
                     @if (Auth::user())
-                    <li><a href="/HomePage">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     @else
-                    <li><a href="/HomePage">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     @endif
-                    <li><a href="/HomePage#About">About</a></li>
-
+                    <li><a href="/#About">About</a></li>
+                    <li><a href="/#review">Reviews</a></li>
                     <?php
                       $categories=DB::select("SELECT * From categories");
                     ?>
@@ -48,7 +48,7 @@
                     @else
                     <li class="bt"><a style="color:#338f60" href="/online/login" class="button-j">Join</a></li>
                     @endif
-                    <li href="/hhh">العربية</li>
+                    <li><a href="/ARHomePage">العربية</a></li>
                 </ul>
             </nav>
             @if (Auth::user())

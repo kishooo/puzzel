@@ -30,9 +30,10 @@
             </table>
            </div>
            <div class="total-price">
-             <form name="form">
-               <?php echo csrf_field(); ?>
+             
             <table>
+              <form name="form">
+                <?php echo csrf_field(); ?>
                 <tr>
                     <td>Total</td>
                     <td><?php echo e($overAllTotal->totalPrice); ?> EGP</td>
@@ -40,8 +41,9 @@
                 <tr>
                 <td><button type="submit" onclick="javascript: form.action='/HomePage/confirm/category/ConfirmCart'; form.method='post';" class="button">confirm</button></td>
               </tr>
+                </form>
             </table>
-            </form>
+
         </div>
 
 <?php $__env->stopSection(); ?>

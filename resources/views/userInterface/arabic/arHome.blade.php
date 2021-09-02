@@ -74,24 +74,25 @@
 </div>
             <!---------offer--------->
             <div class="offer" dir="rtl">
-              <div class="small-container">
-                  <div class="row">
-                      <div class="col-2">
-                          <img src="{{asset('/assets/images/ufida.png')}}" class="offer-img responsive">
-                      </div>
-                      <div class="col-2">
-                          <p>متوفر حصريا</p>
-                          <h1>Smart band 4</h1>
-                          <small>blah blah blah vgvhchffgfhjcgghggggf gyfgjgghvgvhjdhiufhkjj hfdjfhgduyfhsjkd</small>
-                          <a href="#" class="button">اشتري الآن</a>
-                      </div>
+              <div class="row" dir="rtl">
+                  <div class="about" id="About">
+                      <h1>من نحن <span><br>يوفيدا للصناعات الكيماوية</span></h1>
+                      <p>يوفيدا هي شركة رائدة في مجال المنظفات الصناعية على منتجات ذات جودة عالية
+                        وبأسعار تنافسية محليا ومطابقة للمعايير الأوروبية ومعايير الصحة والسلامة العامة.
+                        نحن نسعى جاهدين للتطوير بأكثر من الخبرة والكفاءات التي تسمح دائمًا بتقديم الأفضل ولدينا
+                        ساهمت في السوق المصري بأكثر من المنتجات من خلال التوريد لمحلات السوبر ماركت والمستشفيات والمطاعم والفنادق.
+                      </p>
+                      <a href="online/login" class="button">سجل الدخول </a>
+                  </div>
+                  <div class="about">
+                      <img src="{{asset('/assets/images/ufida.png')}}">
                   </div>
               </div>
           </div>
 
 
     <!-------------Feed Backs---------->
-    <div class="feedback">
+    <div id="review" class="feedback">
         <div class="small-container">
             <div class="row">
           @foreach($reviews as $review)
@@ -109,20 +110,7 @@
         </div>
       </div>
       <!---------About Us----->
-      <div class="row" dir="rtl">
-          <div class="about" id="About">
-              <h1>من نحن <span><br>يوفيدا للصناعات الكيماوية</span></h1>
-              <p>يوفيدا هي شركة رائدة في مجال المنظفات الصناعية على منتجات ذات جودة عالية
-                وبأسعار تنافسية محليا ومطابقة للمعايير الأوروبية ومعايير الصحة والسلامة العامة.
-                نحن نسعى جاهدين للتطوير بأكثر من الخبرة والكفاءات التي تسمح دائمًا بتقديم الأفضل ولدينا
-                ساهمت في السوق المصري بأكثر من المنتجات من خلال التوريد لمحلات السوبر ماركت والمستشفيات والمطاعم والفنادق.
-              </p>
-              <a href="online/login" class="button">سجل الدخول </a>
-          </div>
-          <div class="about">
-              <img src="{{asset('/assets/images/ufida.png')}}">
-          </div>
-      </div>
+
 
 
   </div>
