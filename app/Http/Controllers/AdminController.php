@@ -17,7 +17,7 @@ class AdminController extends Controller
   public function login(){
     return view('login1');
   }
-
+//SELECT * FROM `cart_item` JOIN `carts` on (cart_item.cartId=carts.id) JOIN orders on (carts.id = orders.cartId) WHERE orders.id = 3
   public function doLogin(Request $request){
     $request->validate([
       'email' => 'required', // make sure the email is an actual email

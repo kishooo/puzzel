@@ -11,9 +11,10 @@
                         <span onclick="register()">تسجيل جديد</span>
                         <hr id="indicatorar">
                     </div>
-                    <form id="LoginForm" dir="rtl">
-                        <input type="text" placeholder="اسم المسخدم">
-                        <input type="password" placeholder="كلمه السر">
+                    <form id="LoginForm" dir="rtl" action="/ARonline/login" method="post">
+                      @csrf
+                        <input name="email" type="text" placeholder="اسم المسخدم">
+                        <input name="Password" type="password" placeholder="كلمه السر">
                         <button type="submit" class="btn">تسجيل الدخول</button>
                     </form>
 
@@ -22,7 +23,7 @@
                         <input type="email" placeholder="البريد الإلكتروني">
                         <input type="password" placeholder="كلمه السر">
                         <button type="submit" class="btn">تسجيل  جديد</button>
-                        
+
                     </form>
 
                 </div>

@@ -16,7 +16,7 @@
                     @if($product->newPrice!=0)
                     <h4>Price: <span>{{$product->newPrice}}</span></h4>
                     @else
-                    <h4>Price: <span>{{$product->price}} egy</span></h4>
+                    <h4>Price: <span>{{$product->price}}EGP</span></h4>
                     @endif
                     <h4>Product Details:</h4>
                     <p>{{$product->summary}}.</p>

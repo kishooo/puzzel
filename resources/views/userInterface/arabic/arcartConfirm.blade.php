@@ -15,7 +15,7 @@
                 <tr>
                     <td>
                         <div class="cart-info">
-                            <img src="{{ asset('images/'. $itemCart->image) }}">
+                            <img src="{{'data:image/jpeg;base64,'.base64_encode( $itemCart->image ).' '}}">
                             <div>
                                 <p>{{$itemCart->title}}</p>
                                 <small>السعر لكل وحدة {{$itemCart->price}} EGP</small>
@@ -30,12 +30,18 @@
             </table>
            </div>
            <div class="total-price">
+
             <table>
+              <form name="form">
+                @csrf
                 <tr>
                     <td>{{$overAllTotal->totalPrice}} EGP</td>
                     <td>المجموع</td>
-                   
+
                 </tr>
+                <tr>
+                <td><button type="submit" onclick="javascript: form.action='/ARHomePage/ARconfirm/ARcategory/ARConfirmCart'; form.method='post';" class="button">تأكيد</button></td>
+              </tr>
             </table>
         </div>
 

@@ -24,17 +24,33 @@
             </div>
             <nav>
                 <ul id="MenuItems" >
-                    <li><a href="/arHomePage">الرئيسية</a></li>
+                    <li><a href="/ARHomePage">الرئيسية</a></li>
                     <li><a href="#About">من نحن</a></li>
-                    <li><a href="#Brand">لامسة</i></a></li>
-                    <li><a href="#Brand">كلورينا</i></a></li>
-                    <li><a href="#Brand">تجملي</i></a></li>
                     <li><a href="#contact">تواصل</a></li>
-                    <li class="bt"><a style="color:#338f60" href="/online/arlogin" class="button-j">تسجيل </a></li>
+                    <?php
+                      $categories=DB::select("SELECT * From categories");
+                    ?>
+                    @foreach($categories as $category)
+                      <li><a href="/HomePage/category/products/{{$category->id}}">{{$category->arTitle}}</i></a></li>
+                    @endforeach
+                    @if (Auth::user())
+                    <li>
+                    <form action="/ARonline/logout" method="post">
+                      @csrf
+                    <a><button type="submit" style="color:#338f60" class="button-j">logout</button></a>
+                  </form>
+                  @else
+                  <li class="bt"><a style="color:#338f60" href="/ARonline/login" class="button-j">Join</a></li>
+                  @endif
+
                     <li><a href="/HomePage">English</a></li>
                 </ul>
             </nav>
-            <a href="/HomePage/category/arShowCart/1"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
+            @if (Auth::user())
+            <a href="/ARHomePage/ARcategory/ARShowCart"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
+            @else
+            <a href="/ARonline/login"><img class="shopping-bag" src="{{asset('/images/shopping-bag.png')}}" ></a>
+            @endif
             <img src="{{asset('/images/menu.png')}}" class="menu-icon" onclick="menudropper()">
 
         </div>
@@ -85,7 +101,7 @@
     var LoginForm = document.getElementById("LoginForm");
     var RegForm = document.getElementById("RegForm");
     var Indicatorar = document.getElementById("indicatorar");
-    
+
 
     function register(){
         RegForm.style.transform = "translateX(0px)";
@@ -107,7 +123,7 @@
         else{
             MenuItems.style.maxHeight="0px";
         }
-    
+
     }
 
 </script>

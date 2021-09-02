@@ -37,7 +37,7 @@
                     <div class="row col-12">
                       @foreach($categories as $category)
                         <div class="col-3">
-                            <a href="/HomePage/category/{{$category->categoryId}}"> <img class="responsive" src="{{'data:image/png;base64,'.base64_encode( $category->smallImage ).' '}}"></a>
+                            <a href="/ARHomePage/ARcategory/ARproducts/{{$category->categoryId}}"> <img class="responsive" src="{{'data:image/png;base64,'.base64_encode( $category->smallImage ).' '}}"></a>
                         </div>
                       @endforeach
                     </div>
@@ -45,19 +45,22 @@
             </div>
 
             <!------------featured product---------->
-            <div class="small-container">
+            <div class="small-container" id="product">
                 <h2 class="title">منتجات مميزة</h2>
-                <div class="row">
+                <div class="row" >
             @foreach($products as $product)
             <div class="col-4">
-                        <a href="/HomePage/product/ardescription"><img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}" /></a>
-                        <a href="/HomePage/product/ardescription"><h5>{{$product->title}}</h5></a>
+                        <a href="/ARonline/ARShowProducts/{{$product->id}}"><img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}" /></a>
+                        <a href="/ARonline/ARShowProducts/{{$product->id}}"><h5>{{$product->title}}</h5></a>
                         <h6>{{$product->price}} EGP</h6>
-                        <form method="post" action="/HomePage/{{$product->id}}/1">
+                        @if(Auth::user())
+                        <form method="post" action="/ARHomePage/{{$product->id}}/{{Auth::user()->id}}">
                           @csrf
                             <button type="submit" class="button">أضف إلى السلة</Button>
                         </form>
-                      
+                        @else
+                        <a href="ARonline/login" class="button">سجل الدخول للاضفه</a>
+                        @endif
                     </div>
 
             @endforeach

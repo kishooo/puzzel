@@ -13,11 +13,11 @@
 
               @endif
 
-                <div class="col-4">
-                       <a href="/HomePage/product/ardescription"> <img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}"></a>
+                <div class="col-4" id="{{$i}}">
+                       <a href="/ARonline/ARShowProducts/{{$product->productId}}"> <img src="{{'data:image/jpeg;base64,'.base64_encode( $product->image ).' '}}"></a>
                         <h5>{{$product->productTitle}}<br></h5>
                         <h6>{{$product->price}} EGP</h6>
-                        <form method="post" action="/HomePage/category/{{$product->productId}}/{{$product->categoryId}}/1">
+                        <form method="post" action="/ARHomePage/ARcategory/{{$i}}/{{$product->productId}}/{{$product->categoryId}}">
                           @csrf
                             <button type="submit" class="button">أضف إلى السلة</button>
                         </form>
